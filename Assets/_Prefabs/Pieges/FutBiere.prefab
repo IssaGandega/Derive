@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7904929769900027295}
   - component: {fileID: 6493108928367436346}
   - component: {fileID: 9077250665013761776}
+  - component: {fileID: 1613733771952844333}
+  - component: {fileID: 5114889963840837343}
   m_Layer: 0
   m_Name: FutBiere
   m_TagString: Untagged
@@ -82,3 +84,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1613733771952844333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419718949664552741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86050feea3314246be3b3d22f713da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trapMat: {fileID: 2100000, guid: 39d5ad096883e5f4eb47e3f9718d63bf, type: 2}
+  state: 0
+--- !u!135 &5114889963840837343
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419718949664552741}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.41
+  m_Center: {x: 0.00000017881393, y: -0.00000005960466, z: 1.880002}
