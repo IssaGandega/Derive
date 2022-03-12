@@ -11,6 +11,7 @@ public class UI_SquareFill : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        image.fillAmount = 0;
         LeanTween.value(gameObject, start_fill, end_fill, tweentime)
             .setEaseInOutBack()
             .setOnUpdate((value) =>

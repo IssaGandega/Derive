@@ -6,14 +6,14 @@ public class UI_PingPong : MonoBehaviour
 
 {
 
-    [SerializeField] float x;
-    [SerializeField] float y;
-    [SerializeField] float time;
+    [SerializeField] float x_size;
+    [SerializeField] float y_size;
+    [SerializeField] float time_scale;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.LeanScale(new Vector3(x, y, 1), time).setEaseInSine().setLoopPingPong();
+        transform.LeanScale(new Vector3(x_size, y_size, 1), time_scale).setEaseInSine().setLoopPingPong();
     }
 
     // Update is called once per frame
