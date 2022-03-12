@@ -85,7 +85,7 @@ Material:
     - Lerp_1to2: 1
     - Lerp_1to3: 1
     - Lerp_Cordes: 1
-    - Lerp_cordes: 1
+    - Lerp_cordes: 0
     - Vector1_021e2bf3dcca47f681b9afe8e01cb6f7: 0.45
     - Vector1_2862701f95ef4a43b051c9ea26c1f1b6: 3.39
     - Vector1_88b9d8e8bb854527a083bc79ff49e709: 1
@@ -105,6 +105,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LerpCordes: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -115,6 +116,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _WhichOne: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
