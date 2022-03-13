@@ -7,20 +7,20 @@ using UnityEngine;
 public class TakeShipControl : MonoBehaviour
 {
     public bool isDetecting;
-    public float lerpOutline;
-    public float whichColor;
     
     
     private bool canChange = true;
     private GameObject player;
-    private float rotateAngle;
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] Material boatMat;
+    
+    [SerializeField] private GameObject traps;
+    [SerializeField] private GameObject ropes;
 
     private void Awake()
     {
-        boatMat.SetFloat("_LerpCordes", 0);
+        boatMat.SetFloat("_LerpOutline", 0);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,23 +57,50 @@ public class TakeShipControl : MonoBehaviour
     private IEnumerator ChangeOwnership()
     {
         canChange = false;
-        rotateAngle = transform.rotation.z + 180;
         StartCoroutine(RotateRudder());
-        
-        if (boatMat.GetFloat("_LerpCordes") == 0)
-        {
-            boatMat.SetFloat("_LerpCordes", 1);
-        }
 
         if (player.name == "Player_Red")
         {
-            boatMat.SetFloat("_WhichOne", 0);
+            boatMat.SetFloat("_LerpOutline", 1);
+            boatMat.SetFloat("_WhichColor", 0);
+            foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
+            {
+                rope.state = RopesManager.State.Red;
+            }
+            foreach (var trap in traps.GetComponentsInChildren<TrapManager>())
+            {
+                if (trap.state == TrapManager.State.Disabled)
+                {
+                    trap.state = TrapManager.State.Red;
+                }
+                else if (trap.state == TrapManager.State.Blue)
+                {
+                    trap.state = TrapManager.State.Disabled;
+                }
+            }
         }
-        else
+        else if (player.name == "Player_Blue")
         {
-            boatMat.SetFloat("_WhichOne", 1);
+            boatMat.SetFloat("_LerpOutline", 1);
+            boatMat.SetFloat("_WhichColor", 1);
+            foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
+            {
+                rope.state = RopesManager.State.Blue;
+            }
+            foreach (var trap in traps.GetComponentsInChildren<TrapManager>())
+            {
+                if (trap.state == TrapManager.State.Disabled)
+                {
+                    trap.state = TrapManager.State.Blue;
+                }
+                else if (trap.state == TrapManager.State.Red)
+                {
+                    trap.state = TrapManager.State.Disabled;
+                }
+            }
         }
-        
+
+
         yield return new WaitForSeconds(3);
         canChange = true;
         rotationSpeed *= -1;
