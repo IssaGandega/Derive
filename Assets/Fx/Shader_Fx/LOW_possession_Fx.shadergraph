@@ -3800,7 +3800,7 @@
     },
     "m_Name": "fill amount",
     "m_DefaultReferenceName": "Vector1_acae351a0ed542aba05cd97eaef71dec",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_FillAmount",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

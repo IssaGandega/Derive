@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] 
-    private float playerSpeed = 2.0f;
-    [SerializeField] 
+    [SerializeField] private PlayerScriptableObject playerSO;
+    
+    private float playerSpeed;
     private float knockbackSpeed;
 
     [Space]
@@ -18,14 +18,17 @@ public class PlayerController : MonoBehaviour
     [Space]
     public GameObject hand;
     public bool interacting;
-    
-    private float cooldown;
+
+    private float oldPlayerSpeed;
+    private float effectTime;
     private Vector2 movementInput = Vector2.zero;
     private Vector3 playerMovementInput;
     private Vector3 moveVector;
+    private Vector3 destination;
     private bool isAttacked;
     public bool canAttack = true;
-    private float power;
+    public bool isDrunk;
+    public bool isSoapy;
     
     [SerializeField]
     private Transform respawn;
@@ -34,12 +37,29 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+
+        playerSpeed = playerSO.playerSpeed;
+        knockbackSpeed = playerSO.knockbackSpeed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        movementInput = context.ReadValue<Vector2>();
-        playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+        if (isDrunk)
+        {
+            movementInput = context.ReadValue<Vector2>();
+            playerMovementInput = new Vector3(-movementInput.x, 0, -movementInput.y);
+        }
+
+        else if (isSoapy)
+        {
+            movementInput = context.ReadValue<Vector2>();
+        }
+        
+        else
+        {
+            movementInput = context.ReadValue<Vector2>();
+            playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+        }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -50,6 +70,15 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(InteractingTime());
         }
     }
+    
+    public void OnStruggle(InputAction.CallbackContext context)
+    {
+        if (context.started && !interacting)
+        {
+            effectTime -= 0.5f;
+        }
+    }
+
 
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -93,7 +122,7 @@ public class PlayerController : MonoBehaviour
         
         isAttacked = true;
         
-        Vector3 destination = transform.position +
+        destination = transform.position +
           new Vector3(
               (transform.position.x - hit.x) *  power,
               0,
@@ -118,6 +147,7 @@ public class PlayerController : MonoBehaviour
             StopAllCoroutines();
             isAttacked = false;
         }
+
         if (other.transform.CompareTag("Weapon"))
         {
             StartCoroutine(KnockbackHit(other.transform.position, other.transform.GetComponent<WeaponController>().power));
@@ -134,6 +164,92 @@ public class PlayerController : MonoBehaviour
     {
         moveVector = playerMovementInput * playerSpeed;
         rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
+    }
+
+    public void Drunk(float speed, float time)
+    {
+        effectTime = time;
+        StartCoroutine(PlayerDrunk(speed));
+    }
+
+    public void Stunt(float time, Vector3 pos)
+    {
+        effectTime = time;
+        StartCoroutine(PlayerStunt(pos));
+    }
+
+    public void Soapy(float time)
+    {
+        effectTime = time;
+        StartCoroutine(PlayerSoapy());
+    }
+
+    public void StopSpeed()
+    {
+        playerSpeed = 0;
+        canAttack = false;
+    }
+
+    public void RestoreSpeed()
+    {
+        playerSpeed = playerSO.playerSpeed;
+        canAttack = true;
+    }
+
+    private IEnumerator PlayerDrunk(float speed)
+    {
+        playerSpeed = speed;
+        isDrunk = true;
+        yield return new WaitForSeconds(1);
+
+        if (effectTime <= 0)
+        {
+            isDrunk = false;
+            RestoreSpeed();
+        }
+        else
+        {
+            StartCoroutine(PlayerDrunk(speed));
+            effectTime--;
+        }
+
+    }
+
+    private IEnumerator PlayerStunt(Vector3 pos)
+    {
+        transform.position = new Vector3(pos.x, transform.position.y, pos.z);
+        StopSpeed();
+        
+        yield return new WaitForSeconds(1);
+
+        if (effectTime <= 0)
+        {
+            RestoreSpeed();
+        }
+        else
+        {
+            StartCoroutine(PlayerStunt(pos));
+            effectTime--;
+        }
+        
+    }
+
+    private IEnumerator PlayerSoapy()
+    {
+        isSoapy = true;
+        
+        yield return new WaitForSeconds(1);
+        if (effectTime <= 0)
+        {
+            isSoapy = false;
+            playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+        }
+        else
+        {
+            StartCoroutine(PlayerSoapy());
+            effectTime--;
+        }
+        
     }
 
     private void Update()

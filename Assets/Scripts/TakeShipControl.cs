@@ -17,7 +17,7 @@ public class TakeShipControl : MonoBehaviour
     
     [SerializeField] private GameObject traps;
     [SerializeField] private GameObject ropes;
-
+    
     private void Awake()
     {
         boatMat.SetFloat("_LerpOutline", 0);
@@ -72,10 +72,14 @@ public class TakeShipControl : MonoBehaviour
                 if (trap.state == TrapManager.State.Disabled)
                 {
                     trap.state = TrapManager.State.Red;
+                    trap.activatingPlayer = player;
+                    trap.ChangeTrap();
                 }
                 else if (trap.state == TrapManager.State.Blue)
                 {
                     trap.state = TrapManager.State.Disabled;
+                    trap.activatingPlayer = null;
+                    trap.ResetTrap();
                 }
             }
         }
@@ -92,10 +96,14 @@ public class TakeShipControl : MonoBehaviour
                 if (trap.state == TrapManager.State.Disabled)
                 {
                     trap.state = TrapManager.State.Blue;
+                    trap.activatingPlayer = null;
+                    trap.ChangeTrap();
                 }
                 else if (trap.state == TrapManager.State.Red)
                 {
                     trap.state = TrapManager.State.Disabled;
+                    trap.activatingPlayer = player;
+                    trap.ResetTrap();
                 }
             }
         }

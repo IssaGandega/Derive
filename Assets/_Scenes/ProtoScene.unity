@@ -598,15 +598,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.88
+      value: -26.57
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.26
+      value: 7.24
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.07
+      value: -5.59
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -812,21 +812,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624277122}
     m_Modifications:
+    - target: {fileID: 2252427577074969716, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
+      propertyPath: m_Radius
+      value: 2.12
+      objectReference: {fileID: 0}
     - target: {fileID: 3245613290423091554, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3245613290423091554, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.482693
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 3245613290423091554, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.558978
+      value: 7.56
       objectReference: {fileID: 0}
     - target: {fileID: 3245613290423091554, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.68
+      value: -11.74
       objectReference: {fileID: 0}
     - target: {fileID: 3245613290423091554, guid: 7f6507041f9c4ef49bf16249193a9258, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1168,6 +1172,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2b41ae09-969d-45b2-bcef-8bfeef62d949
     m_ActionName: Player/Reset[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 352769799}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnStruggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 29e43325-5b91-45d0-8569-8e50cef6f209
+    m_ActionName: Player/Struggle[/Keyboard/r,/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: KeyBoardRight
   m_DefaultActionMap: Player
@@ -1185,13 +1205,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f7c5af1bcc9554b96e05f3123ea78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 8
-  knockbackSpeed: 7
+  playerSO: {fileID: 11400000, guid: c598f26ef3c0f404b8280af48edd0cb4, type: 2}
   animations: {fileID: 2077269071}
   rb: {fileID: 352769800}
   hand: {fileID: 2077269069}
   interacting: 0
   canAttack: 1
+  isDrunk: 0
+  isSoapy: 0
+  isStruggling: 0
   respawn: {fileID: 1400162541}
 --- !u!54 &352769800
 Rigidbody:
@@ -1314,6 +1336,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624277122}
     m_Modifications:
+    - target: {fileID: 5114889963840837343, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
+      propertyPath: m_Radius
+      value: 2.59
+      objectReference: {fileID: 0}
     - target: {fileID: 7419718949664552741, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
       propertyPath: m_Name
       value: FutBiere
@@ -1328,7 +1354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7904929769900027295, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.51
+      value: -12.62
       objectReference: {fileID: 0}
     - target: {fileID: 7904929769900027295, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1336,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7904929769900027295, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.84
+      value: 3.64
       objectReference: {fileID: 0}
     - target: {fileID: 7904929769900027295, guid: 727b965de2ab3414f90958b8245d0173, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1875,6 +1901,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2b41ae09-969d-45b2-bcef-8bfeef62d949
     m_ActionName: Player/Reset[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 573855483}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnStruggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 29e43325-5b91-45d0-8569-8e50cef6f209
+    m_ActionName: Player/Struggle[/Keyboard/r,/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: KeyboardLeft
   m_DefaultActionMap: Player
@@ -1892,13 +1934,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f7c5af1bcc9554b96e05f3123ea78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 8
-  knockbackSpeed: 7
+  playerSO: {fileID: 11400000, guid: c598f26ef3c0f404b8280af48edd0cb4, type: 2}
   animations: {fileID: 728852228}
   rb: {fileID: 573855484}
   hand: {fileID: 728852226}
   interacting: 0
   canAttack: 1
+  isDrunk: 0
+  isSoapy: 0
+  isStruggling: 0
   respawn: {fileID: 1400162541}
 --- !u!54 &573855484
 Rigidbody:
@@ -2798,13 +2842,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624277122}
     m_Modifications:
+    - target: {fileID: 4699638130992104958, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.5
+      value: 17.36
       objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2812,7 +2860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.48
+      value: -9.36
       objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2840,6 +2888,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5849929479077739835, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6501099490353996843, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6513559047121397633, guid: 3df05cfc396328947ad56d866435ff95, type: 3}
@@ -3517,15 +3569,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.99
+      value: -27.25
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.27
+      value: 7.25
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.47
+      value: -0.13
       objectReference: {fileID: 0}
     - target: {fileID: 8935754144600880268, guid: e999a0f6fba484244a6ceb735b1b44a9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3974,6 +4026,30 @@ MonoBehaviour:
     pool:
       prefab: {fileID: 3325049394448235231, guid: 5b2b5e3cd52f7b24fb1a496dfebd1354, type: 3}
       baseCount: 6
+      baseRefreshSpeed: 1
+      refreshSpeed: 1
+  - key: LOW_drunk
+    pool:
+      prefab: {fileID: 3951716412054610850, guid: 686ee2b58e93c994aa438e634ecc113d, type: 3}
+      baseCount: 6
+      baseRefreshSpeed: 1
+      refreshSpeed: 1
+  - key: LOW_stunt
+    pool:
+      prefab: {fileID: 6597305461681271390, guid: 2d21a8764f75be245a3a5d4ba8ed9b07, type: 3}
+      baseCount: 6
+      baseRefreshSpeed: 1
+      refreshSpeed: 1
+  - key: Loading
+    pool:
+      prefab: {fileID: 8217287652282531865, guid: ef0f6d360bbced14490b0070935a8da6, type: 3}
+      baseCount: 2
+      baseRefreshSpeed: 1
+      refreshSpeed: 1
+  - key: Sploush
+    pool:
+      prefab: {fileID: 8393245727668240829, guid: 7da1b11cc08272d48b15865f0fe8e966, type: 3}
+      baseCount: 2
       baseRefreshSpeed: 1
       refreshSpeed: 1
 --- !u!1001 &1911377522

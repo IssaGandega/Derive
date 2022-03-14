@@ -11,8 +11,7 @@
                     "id": "491db07a-91b6-471e-82c9-a3c09630d5d1",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": ""
                 },
                 {
                     "name": "Interaction",
@@ -20,8 +19,7 @@
                     "id": "62bbe6af-706e-4161-88e0-fdb4b707e433",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": ""
                 },
                 {
                     "name": "Attack",
@@ -29,8 +27,7 @@
                     "id": "696f6522-ffc3-4b38-85d2-5360c4409167",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": ""
                 },
                 {
                     "name": "Reset",
@@ -38,8 +35,15 @@
                     "id": "2b41ae09-969d-45b2-bcef-8bfeef62d949",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": ""
+                },
+                {
+                    "name": "Struggle",
+                    "type": "Button",
+                    "id": "29e43325-5b91-45d0-8569-8e50cef6f209",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -205,6 +209,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27e8ee92-f3e9-4393-aa52-209ecbee1857",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardLeft",
+                    "action": "Struggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94315643-d254-4048-847c-4e18cb806995",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoardRight",
+                    "action": "Struggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

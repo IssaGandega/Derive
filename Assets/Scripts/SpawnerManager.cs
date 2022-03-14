@@ -58,6 +58,7 @@ public class SpawnerManager : MonoBehaviour
         prefab = weapons[test];
         prefab = Pooler.instance.Pop(prefab.name);
         prefab.transform.position = transform.position + Vector3.up*3f;
+        GetComponentInChildren<ParticleSystem>().Play();
     }
     
     private IEnumerator RerollWeapons()
