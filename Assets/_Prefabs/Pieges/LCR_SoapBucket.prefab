@@ -329,6 +329,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2835309559562913008, guid: 2433f649f88a1a2438068929e27c86e4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2835309559562913009, guid: 2433f649f88a1a2438068929e27c86e4, type: 3}
       propertyPath: m_Name
       value: flaque_savon
@@ -381,7 +385,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2835309559562913008, guid: 2433f649f88a1a2438068929e27c86e4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2433f649f88a1a2438068929e27c86e4, type: 3}
 --- !u!4 &3693998982179179954 stripped
 Transform:

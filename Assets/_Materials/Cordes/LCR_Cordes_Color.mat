@@ -92,6 +92,7 @@ Material:
     - Vector1_9f1c3381d6a6417f941c32a9c4e621cb: -2
     - Vector1_e50a30bd7af240139ca419a0beac5a13: 7.27
     - _AlphaClip: 0
+    - _Amplitude: -2.82
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -105,6 +106,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Idle: 1
     - _LerpCordes: 0
     - _Metallic: 0
     - _OcclusionStrength: 1

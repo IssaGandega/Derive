@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,8 @@ public class RopesManager : MonoBehaviour
 
     public State state;
     private State lastState;
-    
+    private GameObject player;
+    private GameObject fx;
     private Material actualMat;
     
     void Start()
@@ -47,4 +49,25 @@ public class RopesManager : MonoBehaviour
 
         lastState = state;
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.GetComponent<PlayerController>() && state != State.Disabled)
+        {
+            player = other.gameObject;
+            if (player.name.Replace("Player_", "") == state.ToString())
+            {
+                gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
+                
+            }
+            else
+            {
+                fx = Pooler.instance.Pop("Crack");
+                Pooler.instance.DelayedDePop(2, "Crack", fx);
+                fx.transform.position = transform.position;
+                fx.transform.parent = transform;
+            }
+        }
+    }
+    
 }

@@ -5584,7 +5584,7 @@
     },
     "m_Name": "outline color",
     "m_DefaultReferenceName": "Color_beba97f24635402e8c50380db89ef8f3",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_OutlineColor",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

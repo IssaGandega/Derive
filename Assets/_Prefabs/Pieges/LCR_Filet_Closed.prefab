@@ -103,6 +103,7 @@ MonoBehaviour:
   trapSO: {fileID: 11400000, guid: 120eba4c74ce76340aef2f7329f5d8d1, type: 2}
   type: 2
   state: 0
+  childMat: {fileID: 0}
   meshRenderer: {fileID: 0}
   activatingPlayer: {fileID: 0}
   player: {fileID: 0}
@@ -128,7 +129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7691063154006303294, guid: 009c1dfef7f84a0498c667e0dab096bf, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7691063154006303294, guid: 009c1dfef7f84a0498c667e0dab096bf, type: 3}
       propertyPath: m_Materials.Array.data[1]

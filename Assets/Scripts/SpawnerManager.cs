@@ -15,7 +15,8 @@ public class SpawnerManager : MonoBehaviour
     public bool isDetecting;
     private GameObject player;
     
-    private GameObject weaponHolder; 
+    private GameObject weaponHolder;
+    private static readonly int Attack = Animator.StringToHash("Attack");
 
 
     private void Start()
@@ -87,7 +88,7 @@ public class SpawnerManager : MonoBehaviour
                 }
             }
             StopCoroutine(player.GetComponent<PlayerController>().AttackCooldown());
-            player.GetComponent<PlayerController>().animations.SetBool("Attack", false);
+            player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
             player.GetComponent<PlayerController>().canAttack = true;
         }
 

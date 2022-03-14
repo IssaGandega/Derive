@@ -17,10 +17,12 @@ public class TakeShipControl : MonoBehaviour
     
     [SerializeField] private GameObject traps;
     [SerializeField] private GameObject ropes;
-    
+    private static readonly int LerpOutline = Shader.PropertyToID("_LerpOutline");
+    private static readonly int WhichColor = Shader.PropertyToID("_WhichColor");
+
     private void Awake()
     {
-        boatMat.SetFloat("_LerpOutline", 0);
+        boatMat.SetFloat(LerpOutline, 0);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,8 +63,8 @@ public class TakeShipControl : MonoBehaviour
 
         if (player.name == "Player_Red")
         {
-            boatMat.SetFloat("_LerpOutline", 1);
-            boatMat.SetFloat("_WhichColor", 0);
+            boatMat.SetFloat(LerpOutline, 1);
+            boatMat.SetFloat(WhichColor, 0);
             foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
             {
                 rope.state = RopesManager.State.Red;
@@ -85,8 +87,8 @@ public class TakeShipControl : MonoBehaviour
         }
         else if (player.name == "Player_Blue")
         {
-            boatMat.SetFloat("_LerpOutline", 1);
-            boatMat.SetFloat("_WhichColor", 1);
+            boatMat.SetFloat(LerpOutline, 1);
+            boatMat.SetFloat(WhichColor, 1);
             foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
             {
                 rope.state = RopesManager.State.Blue;

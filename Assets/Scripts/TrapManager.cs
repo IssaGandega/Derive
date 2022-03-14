@@ -29,6 +29,7 @@ public class TrapManager : MonoBehaviour
     private State lastState;
     
     private Material actualMat;
+    public Material childMat;
     public MeshRenderer meshRenderer;
     public GameObject activatingPlayer;
     public GameObject player;
@@ -39,13 +40,20 @@ public class TrapManager : MonoBehaviour
     private bool isLoading;
     private GameObject fx;
     private GameObject sploush;
+    
+    private static readonly int FillAmount = Shader.PropertyToID("_FillAmount");
+    private static readonly int LerpOutline = Shader.PropertyToID("_LerpOutline");
+    private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
 
     private void Start()
     {
         state = State.Disabled;
-        gameObject.GetComponent<MeshRenderer>().materials[1].SetFloat("_LerpOutline", 0);
+        gameObject.GetComponent<MeshRenderer>().materials[1].SetFloat(LerpOutline, 0);
         actualMat = Instantiate(trapMat);
+        childMat = Instantiate(transform.GetChild(0).GetComponent<MeshRenderer>().material);
+        transform.GetChild(0).GetComponent<MeshRenderer>().material = childMat;
         gameObject.GetComponent<MeshRenderer>().materials[1] = actualMat;
+
 
         resetTime = trapSO.resetTime;
         effectDuration = trapSO.effectDuration;
@@ -112,8 +120,10 @@ public class TrapManager : MonoBehaviour
                     activatingPlayer = null;
                     break;
                 case State.Blue:
+                    childMat.SetColor(OutlineColor, Color.blue);
                     break;
                 case State.Red:
+                    childMat.SetColor(OutlineColor, Color.red);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -209,9 +219,9 @@ public class TrapManager : MonoBehaviour
         
         yield return new WaitForEndOfFrame();
 
-        if ((meshRenderer.material.GetFloat("_FillAmount") < 1 && isLoading))
+        if ((meshRenderer.material.GetFloat(FillAmount) < 1 && isLoading))
         {
-            meshRenderer.material.SetFloat("_FillAmount", meshRenderer.material.GetFloat("_FillAmount") + 0.001f);
+            meshRenderer.material.SetFloat(FillAmount, meshRenderer.material.GetFloat(FillAmount) + 0.01f);
             StartCoroutine(TrapSetCo());
         }
         
@@ -219,7 +229,7 @@ public class TrapManager : MonoBehaviour
         {
             state = player.name == "Player_Red" ? State.Red : State.Blue;
             activatingPlayer = player;
-            meshRenderer.material.SetFloat("_FillAmount", 0);
+            meshRenderer.material.SetFloat(FillAmount, 0);
             Pooler.instance.DePop("Loading", fx);
             isLoading = false;
             player.GetComponent<PlayerController>().RestoreSpeed();
@@ -227,7 +237,7 @@ public class TrapManager : MonoBehaviour
         }
         else
         {
-            meshRenderer.material.SetFloat("_FillAmount", 0);
+            meshRenderer.material.SetFloat(FillAmount, 0);
             Pooler.instance.DePop("Loading", fx);
             StopCoroutine(TrapSetCo());
         }
@@ -253,7 +263,8 @@ public class TrapManager : MonoBehaviour
         Pooler.instance.DelayedDePop(2, "LOW_stunt", fx);
         fx.transform.position = player.transform.position + Vector3.up;
         fx.transform.parent = player.transform;
-        player.GetComponent<PlayerController>().Stunt(effectDuration, transform.position);
+        
+        player.GetComponent<PlayerController>().Stunt(effectDuration, transform.position, gameObject);
     }
     private void SceauEffect()
     {

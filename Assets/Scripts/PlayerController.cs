@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public bool interacting;
 
     private float oldPlayerSpeed;
-    private float effectTime;
+    public float effectTime;
+    private bool dead;
     private Vector2 movementInput = Vector2.zero;
     private Vector3 playerMovementInput;
     private Vector3 moveVector;
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
     
     public void OnStruggle(InputAction.CallbackContext context)
     {
-        if (context.started && !interacting)
+        if (context.started)
         {
             effectTime -= 0.5f;
         }
@@ -90,14 +91,6 @@ public class PlayerController : MonoBehaviour
                 canAttack = false;
                 StartCoroutine(AttackCooldown());
             }
-        }
-    }
-
-    public void OnReset(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            transform.position = respawn.position;
         }
     }
 
@@ -156,25 +149,55 @@ public class PlayerController : MonoBehaviour
         if (other.transform.CompareTag("Water"))
         {
             transform.position = respawn.position;
+            effectTime = 0;
         }
     }
     
     
     private void MovePlayer()
     {
-        moveVector = playerMovementInput * playerSpeed;
+        if (hand.GetComponentInChildren<WeaponController>() != null)
+        {
+            moveVector = playerMovementInput * (playerSpeed - hand.GetComponentInChildren<WeaponController>().weight);
+        }
+        else
+        {
+            moveVector = playerMovementInput * playerSpeed;
+        }
         rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
     }
 
     public void Drunk(float speed, float time)
     {
         effectTime = time;
-        StartCoroutine(PlayerDrunk(speed));
+        playerSpeed = speed;
+        isDrunk = true;
+        StartCoroutine(PlayerDrunk());
+    }
+    
+    private IEnumerator PlayerDrunk()
+    {
+        yield return new WaitForSeconds(1);
+
+        if (effectTime <= 0)
+        {
+            isDrunk = false;
+            RestoreSpeed();
+        }
+
+        else
+        {
+            effectTime --;
+            StartCoroutine(PlayerDrunk());
+        }
+
     }
 
-    public void Stunt(float time, Vector3 pos)
+    public void Stunt(float time, Vector3 pos, GameObject trap)
     {
         effectTime = time;
+        trap.GetComponent<MeshRenderer>().enabled = true;
+        trap.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(PlayerStunt(pos));
     }
 
@@ -194,25 +217,6 @@ public class PlayerController : MonoBehaviour
     {
         playerSpeed = playerSO.playerSpeed;
         canAttack = true;
-    }
-
-    private IEnumerator PlayerDrunk(float speed)
-    {
-        playerSpeed = speed;
-        isDrunk = true;
-        yield return new WaitForSeconds(1);
-
-        if (effectTime <= 0)
-        {
-            isDrunk = false;
-            RestoreSpeed();
-        }
-        else
-        {
-            StartCoroutine(PlayerDrunk(speed));
-            effectTime--;
-        }
-
     }
 
     private IEnumerator PlayerStunt(Vector3 pos)
