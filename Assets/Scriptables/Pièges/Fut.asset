@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ce985e82f01eba4ca9c2f068d1295e1, type: 3}
-  m_Name: LCR_epee
+  m_Script: {fileID: 11500000, guid: 99ef4b67918482f4c8986987187f0e4d, type: 3}
+  m_Name: Fut
   m_EditorClassIdentifier: 
-  power: 5
-  cooldown: 2
-  prefab: {fileID: 4525932384461165818, guid: 4ca58ee3ab3ee6f49960fcea63606bff, type: 3}
-  attackSound: {fileID: 0}
-  attackParticles: {fileID: 0}
+  effectDuration: 3
+  resetTime: 5

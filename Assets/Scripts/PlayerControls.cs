@@ -49,6 +49,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Struggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""29e43325-5b91-45d0-8569-8e50cef6f209"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -216,6 +224,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27e8ee92-f3e9-4393-aa52-209ecbee1857"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardLeft"",
+                    ""action"": ""Struggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94315643-d254-4048-847c-4e18cb806995"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyBoardRight"",
+                    ""action"": ""Struggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -251,6 +281,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
+        m_Player_Struggle = m_Player.FindAction("Struggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,6 +335,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Reset;
+    private readonly InputAction m_Player_Struggle;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -312,6 +344,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Reset => m_Wrapper.m_Player_Reset;
+        public InputAction @Struggle => m_Wrapper.m_Player_Struggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -333,6 +366,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Reset.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
                 @Reset.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
                 @Reset.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
+                @Struggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
+                @Struggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
+                @Struggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -349,6 +385,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Reset.started += instance.OnReset;
                 @Reset.performed += instance.OnReset;
                 @Reset.canceled += instance.OnReset;
+                @Struggle.started += instance.OnStruggle;
+                @Struggle.performed += instance.OnStruggle;
+                @Struggle.canceled += instance.OnStruggle;
             }
         }
     }
@@ -377,5 +416,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnStruggle(InputAction.CallbackContext context);
     }
 }

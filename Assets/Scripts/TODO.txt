@@ -1,9 +1,6 @@
-Transforme les armes en empty
--> Scriptable
-
-Nomenclature
-Arborescence
-Score Manager
-
-BUGS:
-- Empêcher le spam d'arme
+input tourne de x le gouvernail jusqu'à goal lance coroutine
+cordes bounce anim si touche par player color + enbl collider
+Bouger mouettes et requin
+Add FX
+Add Sound
+Add UI

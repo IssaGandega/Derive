@@ -90,10 +90,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8935754144600880268}
-  - component: {fileID: 6580083047029306749}
   m_Layer: 0
   m_Name: LCR_Cordes
-  m_TagString: Untagged
+  m_TagString: Ropes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,19 +113,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6580083047029306749
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595680234422447670}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 3.21, z: 6.85}
-  m_Center: {x: 0, y: 1.77, z: 2.77}
 --- !u!1 &9197776419718517579
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +125,7 @@ GameObject:
   - component: {fileID: 1667805583955535001}
   - component: {fileID: 1461937612687336484}
   - component: {fileID: 3197912789609293856}
+  - component: {fileID: 3268438435012491198}
   m_Layer: 0
   m_Name: cordes_main
   m_TagString: Untagged
@@ -223,3 +210,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapMat: {fileID: 2100000, guid: d78543cbc73e71d498f4169bc31b8435, type: 2}
   state: 0
+--- !u!65 &3268438435012491198
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197776419718517579}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.6928396, y: 2.9279754, z: 0.99733496}
+  m_Center: {x: 0.07840719, y: 1.2499999, z: 0.004796372}

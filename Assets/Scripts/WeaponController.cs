@@ -10,6 +10,7 @@ public class WeaponController : MonoBehaviour
 
 	public float power = 0;
 	public float cooldown = 0;
+	public float weight;
 	private GameObject prefab;
 	private GameObject weapon;
 
@@ -29,6 +30,7 @@ public class WeaponController : MonoBehaviour
 		prefab = weaponSO.prefab;
 		power = weaponSO.power;
 		cooldown = weaponSO.cooldown;
+		weight = weaponSO.weight;
 	}
 
 
