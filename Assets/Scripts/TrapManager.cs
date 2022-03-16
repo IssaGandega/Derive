@@ -138,10 +138,11 @@ public class TrapManager : MonoBehaviour
         if (isDetecting && state == State.Disabled && player.GetComponent<PlayerController>().interacting && !isLoading)
         {
             player.GetComponent<PlayerController>().StopSpeed();
+            player.GetComponent<PlayerController>().PlayAnimation("pick_up", true);
             activatingPlayer = player;
             isLoading = true;
             fx = Pooler.instance.Pop("Loading");
-            fx.transform.position = player.transform.position + Vector3.up;
+            fx.transform.position = player.transform.position + Vector3.up*7;
             meshRenderer = fx.GetComponent<MeshRenderer>();
             StartCoroutine(TrapSetCo());
         }

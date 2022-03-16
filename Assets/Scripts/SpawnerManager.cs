@@ -14,9 +14,10 @@ public class SpawnerManager : MonoBehaviour
     private GameObject prefab;
     public bool isDetecting;
     private GameObject player;
-    
+
     private GameObject weaponHolder;
     private static readonly int Attack = Animator.StringToHash("Attack");
+    public GameObject[] armes;
 
 
     private void Start()
@@ -29,7 +30,7 @@ public class SpawnerManager : MonoBehaviour
     {
         if (other.GetComponent<PlayerInput>())
         {
-            weaponHolder = other.GetComponentInChildren<Animator>().gameObject;
+            weaponHolder = other.GetComponentInChildren<PlayerController>().hand;
             isDetecting = true;
             player = other.gameObject;
         }
@@ -78,20 +79,27 @@ public class SpawnerManager : MonoBehaviour
             {
                 if (weapon.gameObject.name == prefab.name.Replace("(Clone)", ""))
                 {
+                    Debug.Log(weapon.name);
                     weapon.gameObject.SetActive(true);
-                    weaponHolder.GetComponent<Animator>().SetBool(weapon.name, true);
+                    //player.GetComponent<Animator>().Play("pick_up");
+                    player.GetComponent<PlayerController>().PlayAnimation("pick_up", true);
+                    player.GetComponent<PlayerController>().weaponName = weapon.name;
+                    //player.GetComponent<Animator>().SetBool(weapon.name, true);
                 }
                 else
-                {
+                { 
                     weapon.gameObject.SetActive(false);
-                    weaponHolder.GetComponent<Animator>().SetBool(weapon.name, false);
+                    //player.GetComponent<Animator>().SetBool(weapon.name, false);
                 }
             }
             StopCoroutine(player.GetComponent<PlayerController>().AttackCooldown());
-            player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
+            //player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
             player.GetComponent<PlayerController>().canAttack = true;
         }
-
+        foreach (GameObject obj in armes)
+        {
+            Debug.Log(obj.active);
+        }
         player.GetComponent<PlayerController>().interacting = false;
     }
 }

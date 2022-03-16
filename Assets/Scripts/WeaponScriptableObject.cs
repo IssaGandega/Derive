@@ -12,8 +12,9 @@ public class WeaponScriptableObject : ScriptableObject
 	//Put AudioSource on prefabs
 	public AudioClip attackSound;
 	public ParticleSystem attackParticles;
+	public AnimationClip animationClip;
 
 	// Range depends on weapon prefab
 	// Hitzone depends on weapon prefab
-	
+
 }

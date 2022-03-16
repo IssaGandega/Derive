@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     public bool canAttack = true;
     public bool isDrunk;
     public bool isSoapy;
+    private string currentState;
+    private bool animationLocked;
+    public string weaponName;
     
     [SerializeField]
     private Transform respawn;
@@ -72,25 +75,17 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(InteractingTime());
         }
     }
-    
-    public void OnStruggle(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            effectTime -= 0.5f;
-        }
-    }
 
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (hand.GetComponentInChildren<Rigidbody>() != null && canAttack)
+            if (hand.GetComponentInChildren<WeaponController>() != null)
             {
-                animations.SetBool("Attack", true);
-                canAttack = false;
-                StartCoroutine(AttackCooldown());
+                PlayAnimation("attack_" + weaponName, true);
+                //animations.SetBool("Attack", true);
+                //StartCoroutine(AttackCooldown());
             }
         }
     }
@@ -99,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(hand.GetComponentInChildren<WeaponController>().cooldown);
         canAttack = true;
-        animations.SetBool("Attack", false);
+        //animations.SetBool("Attack", false);
     }
     
     private IEnumerator InteractingTime()
@@ -108,11 +103,16 @@ public class PlayerController : MonoBehaviour
 
         interacting = false; 
     }
+    
+    public void Struggle()
+    {
+        effectTime -= 0.5f;
+    }
 
     
     private IEnumerator KnockbackHit(Vector3 hit, float power)
     {
-        
+        PlayAnimation("hurt", true);
         
         isAttacked = true;
         
@@ -144,23 +144,25 @@ public class PlayerController : MonoBehaviour
 
         if (other.transform.CompareTag("Weapon"))
         {
+            Debug.Log("hit");
             StartCoroutine(KnockbackHit(other.transform.position, other.transform.GetComponent<WeaponController>().power));
         }
         
         if (other.transform.CompareTag("Water"))
         {
-            Respawn();
+            StartCoroutine(DeathAnimation());
         }
     }
 
-    private void Respawn()
+    private IEnumerator DeathAnimation()
     {
+        PlayAnimation("drowning", true);
+        yield return new WaitForSeconds(1);
+        PlayAnimation("idle", false);
         var nb = Random.Range(0, respawn.transform.childCount);
-        Debug.Log(nb);
         transform.position = respawn.GetChild(nb).position;
         effectTime = 0;
     }
-
 
     private void MovePlayer()
     {
@@ -212,6 +214,7 @@ public class PlayerController : MonoBehaviour
     public void Soapy(float time)
     {
         effectTime = time;
+        PlayAnimation("slide", true);
         StartCoroutine(PlayerSoapy());
     }
 
@@ -230,12 +233,14 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PlayerStunt(Vector3 pos)
     {
         transform.position = new Vector3(pos.x, transform.position.y, pos.z);
+        PlayAnimation("stun_filet", true);
         StopSpeed();
         
         yield return new WaitForSeconds(1);
 
         if (effectTime <= 0)
         {
+            animationLocked = false;
             RestoreSpeed();
         }
         else
@@ -254,6 +259,7 @@ public class PlayerController : MonoBehaviour
         if (effectTime <= 0)
         {
             isSoapy = false;
+            animationLocked = false;
             playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
         }
         else
@@ -263,13 +269,33 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+    
+    public void PlayAnimation (string newState, bool locked)
+    {
+        if (currentState == newState) return;
+        GetComponent<Animator>().Play(newState);
+        animationLocked = locked;
+        currentState = newState;
+    }
+
+    public void UpdateState(string stateName)
+    {
+        currentState = stateName;
+        animationLocked = false;
+    }
 
     private void Update()
     {
         MovePlayer();
+
+        if (playerMovementInput == Vector3.zero)
+        {
+            if (!animationLocked) PlayAnimation("idle", false);
+        }
         
         if (playerMovementInput != Vector3.zero)
         {
+            if(!animationLocked) PlayAnimation("run", false);
             gameObject.transform.forward = playerMovementInput.normalized;
         }
 

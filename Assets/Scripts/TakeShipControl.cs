@@ -10,13 +10,17 @@ public class TakeShipControl : MonoBehaviour
     
     
     private bool canChange = true;
-    private GameObject player;
+    private int initGouvValue;
+    private EncoderReader encoder;
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] Material boatMat;
+    [SerializeField] private GameObject uduino;
     
     [SerializeField] private GameObject traps;
     [SerializeField] private GameObject ropes;
+
+    public List<GameObject> playersInside;
     private static readonly int LerpOutline = Shader.PropertyToID("_LerpOutline");
     private static readonly int WhichColor = Shader.PropertyToID("_WhichColor");
 
@@ -25,12 +29,18 @@ public class TakeShipControl : MonoBehaviour
         boatMat.SetFloat(LerpOutline, 0);
     }
 
+    private void Start()
+    {
+        encoder = uduino.GetComponent<EncoderReader>();
+        initGouvValue = uduino.GetComponent<EncoderReader>().gouvCurrentValue;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerController>())
         {
-            isDetecting = true;
-            player = other.gameObject;
+            initGouvValue = encoder.gouvCurrentValue;
+            playersInside.Add(other.gameObject);
         }
     }
 
@@ -38,8 +48,8 @@ public class TakeShipControl : MonoBehaviour
     {
         if (other.GetComponent<PlayerController>())
         {
-            isDetecting = false;
-            player = null;
+            initGouvValue = encoder.gouvCurrentValue;
+            playersInside.Remove(other.gameObject);
         }
     }
 
@@ -50,8 +60,10 @@ public class TakeShipControl : MonoBehaviour
 
     private void TakeControl()
     {
-        if (isDetecting && canChange && player.GetComponent<PlayerController>().interacting)
+        if (playersInside.Count == 1 && canChange && (encoder.gouvCurrentValue > initGouvValue + 10 || encoder.gouvCurrentValue < initGouvValue - 10))
         {
+            initGouvValue = encoder.gouvCurrentValue;
+            playersInside[0].GetComponent<PlayerController>().PlayAnimation("turn_runner", true);
             StartCoroutine(ChangeOwnership());
         }
     }
@@ -61,7 +73,7 @@ public class TakeShipControl : MonoBehaviour
         canChange = false;
         StartCoroutine(RotateRudder());
 
-        if (player.name == "Player_Red")
+        if (playersInside[0].name == "Player_Red")
         {
             boatMat.SetFloat(LerpOutline, 1);
             boatMat.SetFloat(WhichColor, 0);
@@ -74,7 +86,7 @@ public class TakeShipControl : MonoBehaviour
                 if (trap.state == TrapManager.State.Disabled)
                 {
                     trap.state = TrapManager.State.Red;
-                    trap.activatingPlayer = player;
+                    trap.activatingPlayer = playersInside[0];
                     trap.ChangeTrap();
                 }
                 else if (trap.state == TrapManager.State.Blue)
@@ -85,7 +97,7 @@ public class TakeShipControl : MonoBehaviour
                 }
             }
         }
-        else if (player.name == "Player_Blue")
+        else if (playersInside[0].name == "Player_Blue")
         {
             boatMat.SetFloat(LerpOutline, 1);
             boatMat.SetFloat(WhichColor, 1);
@@ -98,7 +110,7 @@ public class TakeShipControl : MonoBehaviour
                 if (trap.state == TrapManager.State.Disabled)
                 {
                     trap.state = TrapManager.State.Blue;
-                    trap.activatingPlayer = player;
+                    trap.activatingPlayer = playersInside[0];
                     trap.ChangeTrap();
                 }
                 else if (trap.state == TrapManager.State.Red)
