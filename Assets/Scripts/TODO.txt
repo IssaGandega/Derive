@@ -1,6 +1,34 @@
-input tourne de x le gouvernail jusqu'à goal lance coroutine
-cordes bounce anim si touche par player color + enbl collider
-Bouger mouettes et requin
+Tourner le gouvernail
+Bouger Requin Anim
+Add SoundManager
+
+Equilibrer + BugTest
 Add FX
 Add Sound
 Add UI
+
+
+
+
+Liste des fonctions utiles pour intégration:
+
+PlayerController:
+    - joueur se déplace -> MovePlayer()
+    - joueur attaque -> OnAttack()
+    - joueur struggle -> OnStruggle()
+    - joueur interagit -> OnInteract()
+    - joueur meurt -> Respawn()
+    - joueur se fait taper -> KnockbackHit()
+    
+SpawnerManager:
+    - nouvelle arme spawn -> SpawnRandomWeapon()
+    - joueur pickup arme -> PickupWeapon()
+    
+TakeShipControl:
+    - un joueur prend le controle -> TakeControl()
+    
+TrapManager:
+    - un piège est set -> SetTrap()
+    - un piège se reset -> ResetTrap()
+    - un piège est triggered -> TriggerTrap()
+    

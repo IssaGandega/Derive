@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput = Vector2.zero;
     private Vector3 playerMovementInput;
     private Vector3 moveVector;
-    private Vector3 destination;
+    public Vector3 destination;
     private bool isAttacked;
     public bool canAttack = true;
     public bool isDrunk;
@@ -148,12 +149,19 @@ public class PlayerController : MonoBehaviour
         
         if (other.transform.CompareTag("Water"))
         {
-            transform.position = respawn.position;
-            effectTime = 0;
+            Respawn();
         }
     }
-    
-    
+
+    private void Respawn()
+    {
+        var nb = Random.Range(0, respawn.transform.childCount);
+        Debug.Log(nb);
+        transform.position = respawn.GetChild(nb).position;
+        effectTime = 0;
+    }
+
+
     private void MovePlayer()
     {
         if (hand.GetComponentInChildren<WeaponController>() != null)

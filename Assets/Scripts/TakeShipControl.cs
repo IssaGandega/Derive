@@ -98,13 +98,13 @@ public class TakeShipControl : MonoBehaviour
                 if (trap.state == TrapManager.State.Disabled)
                 {
                     trap.state = TrapManager.State.Blue;
-                    trap.activatingPlayer = null;
+                    trap.activatingPlayer = player;
                     trap.ChangeTrap();
                 }
                 else if (trap.state == TrapManager.State.Red)
                 {
                     trap.state = TrapManager.State.Disabled;
-                    trap.activatingPlayer = player;
+                    trap.activatingPlayer = null;
                     trap.ResetTrap();
                 }
             }
