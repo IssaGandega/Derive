@@ -18,3 +18,4 @@ MonoBehaviour:
   prefab: {fileID: 4525932384461165818, guid: 4ca58ee3ab3ee6f49960fcea63606bff, type: 3}
   attackSound: {fileID: 0}
   attackParticles: {fileID: 0}
+  animationClip: {fileID: 0}
