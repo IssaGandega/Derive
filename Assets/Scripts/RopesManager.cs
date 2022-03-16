@@ -73,6 +73,7 @@ public class RopesManager : MonoBehaviour
             else
             {
                 GetComponent<BoxCollider>().enabled = false;
+                StartCoroutine(DisableRope());
                 fx = Pooler.instance.Pop("Crack");
                 Pooler.instance.DelayedDePop(2, "Crack", fx);
                 fx.transform.position = transform.position;
@@ -90,6 +91,13 @@ public class RopesManager : MonoBehaviour
         StartCoroutine(RopeTimer());
     }
 
+    private IEnumerator DisableRope()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(2);
+        GetComponent<MeshRenderer>().enabled = true;
+    }
+    
     private IEnumerator RopeTimer()
     {
         // Just in case block concurrent routines
@@ -148,5 +156,4 @@ public class RopesManager : MonoBehaviour
             gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 1);
         }
     }
-
 }
