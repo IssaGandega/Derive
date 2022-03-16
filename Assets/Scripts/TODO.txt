@@ -1,5 +1,6 @@
-Tourner le gouvernail
-Bouger Requin Anim
+Bouger anims
+Modif pickup prends trop tot
+
 Add SoundManager
 
 Equilibrer + BugTest
