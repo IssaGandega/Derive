@@ -19,6 +19,17 @@ public class RopesManager : MonoBehaviour
     private GameObject player;
     private GameObject fx;
     private Material actualMat;
+
+    private bool isMoving;
+    private bool isTowardMin;
+
+    public float minScale = -1;
+    public float maxScale = 1;
+
+    [SerializeField] private float animationSpeed;
+    [SerializeField] private int bounceNumber;
+
+    private int totalBounces;
     
     void Start()
     {
@@ -50,18 +61,19 @@ public class RopesManager : MonoBehaviour
         lastState = state;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.GetComponent<PlayerController>() && state != State.Disabled)
+        if (other.GetComponent<PlayerController>())
         {
             player = other.gameObject;
             if (player.name.Replace("Player_", "") == state.ToString())
             {
-                gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
-                
+                GetComponent<BoxCollider>().enabled = true;
             }
             else
             {
+                GetComponent<BoxCollider>().enabled = false;
+                StartCoroutine(DisableRope());
                 fx = Pooler.instance.Pop("Crack");
                 Pooler.instance.DelayedDePop(2, "Crack", fx);
                 fx.transform.position = transform.position;
@@ -69,5 +81,79 @@ public class RopesManager : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
+        //player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.GetComponent<PlayerController>().destination = player.transform.position;
+        totalBounces = bounceNumber;
+        StartCoroutine(RopeTimer());
+    }
+
+    private IEnumerator DisableRope()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(2);
+        GetComponent<MeshRenderer>().enabled = true;
+    }
     
+    private IEnumerator RopeTimer()
+    {
+        // Just in case block concurrent routines
+        if(isMoving) yield break;
+
+        // Block input
+        isMoving = true;
+
+        // Decide if going to Max or min
+        var targetAmplitude = isTowardMin ? minScale : maxScale;
+
+        // Store Start values
+        var startAmplitude = gameObject.GetComponent<MeshRenderer>().material.GetFloat("_Amplitude");
+
+        var duration = 1 / animationSpeed;
+        var timePassed = 0f;
+
+        while(timePassed < duration)
+        {
+            var t = timePassed / duration;
+            // Optional: add ease-in and ease-out
+            t = Mathf.SmoothStep(0, 1, t);
+
+            gameObject.GetComponent<MeshRenderer>().material.SetFloat("_Amplitude", Mathf.Lerp(startAmplitude, targetAmplitude, Time.deltaTime));
+            
+
+            // Increase the time passed since last frame
+            startAmplitude = gameObject.GetComponent<MeshRenderer>().material.GetFloat("_Amplitude");
+
+
+            timePassed += Time.deltaTime;
+
+            // This tells Unity to "pause" the routine here,
+            // render this frame and continue from here
+            // in the next frame
+            yield return null;
+        }
+
+        // Just to be sure to end with exact values apply them hard once
+        gameObject.GetComponent<MeshRenderer>().material.SetFloat("_Amplitude", targetAmplitude);
+
+        // Invert direction
+        isTowardMin = !isTowardMin;
+
+        // Done -> unlock input
+        isMoving = false;
+        bounceNumber -= 1;
+
+        if (bounceNumber > 0)
+        {
+            StartCoroutine(RopeTimer());
+        }
+        else
+        {
+            bounceNumber = totalBounces;
+            gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 1);
+        }
+    }
 }

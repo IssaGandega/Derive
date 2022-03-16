@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 1461937612687336484}
   - component: {fileID: 3197912789609293856}
   - component: {fileID: 3268438435012491198}
+  - component: {fileID: 4457801535553780515}
   m_Layer: 0
   m_Name: cordes_main
   m_TagString: Untagged
@@ -210,6 +211,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapMat: {fileID: 2100000, guid: d78543cbc73e71d498f4169bc31b8435, type: 2}
   state: 0
+  minScale: -0.5
+  maxScale: 0.5
+  animationSpeed: 7
+  bounceNumber: 3
 --- !u!65 &3268438435012491198
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -222,4 +227,17 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 7.6928396, y: 2.9279754, z: 0.99733496}
+  m_Center: {x: 0.07840719, y: 1.2499999, z: 0.004796372}
+--- !u!65 &4457801535553780515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197776419718517579}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.46, y: 3.73, z: 3.5}
   m_Center: {x: 0.07840719, y: 1.2499999, z: 0.004796372}
