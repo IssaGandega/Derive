@@ -84,11 +84,14 @@ public class RopesManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
-        //player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        player.GetComponent<PlayerController>().destination = player.transform.position;
-        totalBounces = bounceNumber;
-        StartCoroutine(RopeTimer());
+        if (other.transform.GetComponent<PlayerController>())
+        {
+            gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
+            //player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            player.GetComponent<PlayerController>().destination = player.transform.position;
+            totalBounces = bounceNumber;
+            StartCoroutine(RopeTimer());
+        }
     }
 
     private IEnumerator DisableRope()

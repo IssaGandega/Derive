@@ -144,7 +144,6 @@ public class PlayerController : MonoBehaviour
 
         if (other.transform.CompareTag("Weapon"))
         {
-            Debug.Log("hit");
             StartCoroutine(KnockbackHit(other.transform.position, other.transform.GetComponent<WeaponController>().power));
         }
         
@@ -159,6 +158,7 @@ public class PlayerController : MonoBehaviour
         PlayAnimation("drowning", true);
         yield return new WaitForSeconds(1);
         PlayAnimation("idle", false);
+        destination = transform.position;
         var nb = Random.Range(0, respawn.transform.childCount);
         transform.position = respawn.GetChild(nb).position;
         effectTime = 0;
