@@ -79,8 +79,7 @@ public class SpawnerManager : MonoBehaviour
             {
                 if (weapon.gameObject.name == prefab.name.Replace("(Clone)", ""))
                 {
-                    Debug.Log(weapon.name);
-                    weapon.gameObject.SetActive(true);
+                    StartCoroutine(GetWeapon(weapon));
                     //player.GetComponent<Animator>().Play("pick_up");
                     player.GetComponent<PlayerController>().PlayAnimation("pick_up", true);
                     player.GetComponent<PlayerController>().weaponName = weapon.name;
@@ -96,10 +95,13 @@ public class SpawnerManager : MonoBehaviour
             //player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
             player.GetComponent<PlayerController>().canAttack = true;
         }
-        foreach (GameObject obj in armes)
-        {
-            Debug.Log(obj.active);
-        }
+
         player.GetComponent<PlayerController>().interacting = false;
+    }
+
+    private IEnumerator GetWeapon(Transform weapon)
+    {
+        yield return new WaitForSeconds(0.5f);
+        weapon.gameObject.SetActive(true);
     }
 }
