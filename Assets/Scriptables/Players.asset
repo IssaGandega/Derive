@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a09f33841f84b438af3b871c7d6f9b, type: 3}
   m_Name: Players
   m_EditorClassIdentifier: 
-  playerSpeed: 8
+  playerSpeed: 10
   knockbackSpeed: 7

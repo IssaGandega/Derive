@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Uduino;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -22,9 +23,8 @@ public class WeaponController : MonoBehaviour
 
 	//Put AudioSource on prefabs
 	public AudioClip attackSound;
-	public ParticleSystem attackParticles;
-	public AnimationClip animationClip;
 
+	
 	[SerializeField] private WeaponScriptableObject weaponSO;
 
 	private void OnEnable()
@@ -33,8 +33,16 @@ public class WeaponController : MonoBehaviour
 		power = weaponSO.power;
 		cooldown = weaponSO.cooldown;
 		weight = weaponSO.weight;
-		animationClip = weaponSO.animationClip;
 	}
 
+	public void DisableWeapon()
+	{
+		gameObject.SetActive(!gameObject.activeSelf);
+	}
+
+	public void DisableWeaponMesh()
+	{
+		GetComponent<MeshRenderer>().enabled = !GetComponent<MeshRenderer>().enabled;
+	}
 
 }

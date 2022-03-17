@@ -93,7 +93,6 @@ public class SpawnerManager : MonoBehaviour
             }
             StopCoroutine(player.GetComponent<PlayerController>().AttackCooldown());
             //player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
-            player.GetComponent<PlayerController>().canAttack = true;
         }
 
         player.GetComponent<PlayerController>().interacting = false;

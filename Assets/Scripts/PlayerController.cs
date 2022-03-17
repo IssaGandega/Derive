@@ -28,12 +28,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector;
     public Vector3 destination;
     private bool isAttacked;
-    public bool canAttack = true;
     public bool isDrunk;
     public bool isSoapy;
     private string currentState;
     private bool animationLocked;
     public string weaponName;
+
+    private bool disarmed;
     
     [SerializeField]
     private Transform respawn;
@@ -84,8 +85,6 @@ public class PlayerController : MonoBehaviour
             if (hand.GetComponentInChildren<WeaponController>() != null)
             {
                 PlayAnimation("attack_" + weaponName, true);
-                //animations.SetBool("Attack", true);
-                //StartCoroutine(AttackCooldown());
             }
         }
     }
@@ -93,7 +92,6 @@ public class PlayerController : MonoBehaviour
     public IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(hand.GetComponentInChildren<WeaponController>().cooldown);
-        canAttack = true;
         //animations.SetBool("Attack", false);
     }
     
@@ -112,6 +110,12 @@ public class PlayerController : MonoBehaviour
     
     private IEnumerator KnockbackHit(Vector3 hit, float power)
     {
+        if (hand.GetComponentInChildren<WeaponController>() != null)
+        {
+            hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+            disarmed = true;
+        }
+        
         PlayAnimation("hurt", true);
         
         isAttacked = true;
@@ -129,10 +133,20 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         
+        if (disarmed)
+        {
+            StartCoroutine(GetWeaponBack());
+            disarmed = false;
+        }        
         
         isAttacked = false;
     }
-    
+
+    private IEnumerator GetWeaponBack()
+    {
+        yield return new WaitForSeconds(0.7f);
+        hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+    }
 
     private void OnCollisionEnter(Collision other)
     {
@@ -155,7 +169,15 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DeathAnimation()
     {
+        if (hand.GetComponentInChildren<WeaponController>() != null)
+        {
+            hand.GetComponentInChildren<WeaponController>().DisableWeapon();
+        }
+        
         PlayAnimation("drowning", true);
+        var splash = Pooler.instance.Pop("Plouf");
+        splash.transform.position = transform.position;
+        Pooler.instance.DelayedDePop(1, "Plouf", splash);
         yield return new WaitForSeconds(1);
         PlayAnimation("idle", false);
         destination = transform.position;
@@ -213,6 +235,11 @@ public class PlayerController : MonoBehaviour
 
     public void Soapy(float time)
     {
+        if (hand.GetComponentInChildren<WeaponController>() != null)
+        {
+            hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+            disarmed = true;
+        }
         effectTime = time;
         PlayAnimation("slide", true);
         StartCoroutine(PlayerSoapy());
@@ -221,13 +248,11 @@ public class PlayerController : MonoBehaviour
     public void StopSpeed()
     {
         playerSpeed = 0;
-        canAttack = false;
     }
 
     public void RestoreSpeed()
     {
         playerSpeed = playerSO.playerSpeed;
-        canAttack = true;
     }
 
     private IEnumerator PlayerStunt(Vector3 pos)
@@ -261,6 +286,11 @@ public class PlayerController : MonoBehaviour
             isSoapy = false;
             animationLocked = false;
             playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+            if (disarmed)
+            {
+                hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+                disarmed = false;
+            }
         }
         else
         {
