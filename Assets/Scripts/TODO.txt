@@ -1,10 +1,7 @@
-Bouger anims
-Modif pickup prends trop tot
-
+Add AttackFX
+add HitFX
+Créer boucle de jeu
 Add SoundManager
-
-Equilibrer + BugTest
-Add FX
 Add Sound
 Add UI
 

@@ -31,7 +31,6 @@ public class EncoderReader : MonoBehaviour
             gouvTurned = true;
         }
         else gouvTurned = false;
-        //Debug.Log(gouvTurned);
     }
 
     //Récupère les valeurs envoyé par Arduino

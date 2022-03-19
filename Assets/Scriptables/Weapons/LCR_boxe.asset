@@ -17,5 +17,3 @@ MonoBehaviour:
   weight: 0
   prefab: {fileID: 4759027408875798399, guid: 17e9f6190dc8dca4aa6b2b9ffaa821f8, type: 3}
   attackSound: {fileID: 0}
-  attackParticles: {fileID: 0}
-  animationClip: {fileID: 0}

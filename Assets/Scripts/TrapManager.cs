@@ -142,7 +142,7 @@ public class TrapManager : MonoBehaviour
             activatingPlayer = player;
             isLoading = true;
             fx = Pooler.instance.Pop("Loading");
-            fx.transform.position = player.transform.position + Vector3.up*7;
+            fx.transform.position = player.transform.position + Vector3.up*6;
             meshRenderer = fx.GetComponent<MeshRenderer>();
             StartCoroutine(TrapSetCo());
         }
@@ -160,7 +160,7 @@ public class TrapManager : MonoBehaviour
         StartCoroutine(TrapResetCo());
         smoke.GetComponent<ParticleSystem>().Play();
         GetComponent<MeshRenderer>().enabled = false;
-        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
         foreach (var particle in gameObject.transform.GetChild(0).GetComponentsInChildren<ParticleSystem>())
         {
             particle.Play();
@@ -192,7 +192,7 @@ public class TrapManager : MonoBehaviour
             gameObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
             gameObject.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = true;
         }
-        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
         state = State.Disabled;
         
         if (type == Type.Filet) return;
@@ -248,7 +248,7 @@ public class TrapManager : MonoBehaviour
     {
         fx = Pooler.instance.Pop("LOW_drunk");
         Pooler.instance.DelayedDePop(2, "LOW_drunk", fx);
-        fx.transform.position = player.transform.position + Vector3.up;
+        fx.transform.position = player.transform.position + Vector3.up*6;
         fx.transform.parent = player.transform;
         
         sploush = Pooler.instance.Pop("Sploush");
@@ -262,7 +262,7 @@ public class TrapManager : MonoBehaviour
     {
         fx = Pooler.instance.Pop("LOW_stunt");
         Pooler.instance.DelayedDePop(2, "LOW_stunt", fx);
-        fx.transform.position = player.transform.position + Vector3.up;
+        fx.transform.position = player.transform.position + Vector3.up*6;
         fx.transform.parent = player.transform;
         
         player.GetComponent<PlayerController>().Stunt(effectDuration, transform.position, gameObject);
