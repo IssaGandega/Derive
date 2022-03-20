@@ -7,10 +7,11 @@ public class UI_FadeOut_Fill : MonoBehaviour
 {
 public Image image;
     [SerializeField] float tweentime, start_fill, end_fill, delay;
-    [SerializeField] Color beginColor, endColor;
+    public Color beginColor, endColor;
     // Start is called before the first frame update
     void Start()
     {
+        endColor = GetComponent<Image>().color;
         image.fillAmount = 0;
         LeanTween.value(gameObject, start_fill, end_fill, tweentime)
             .setEaseInOutBack()
