@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private GameObject weaponFX;
     private GameObject hitFX;
     private GameObject hitFX2;
+    private WeaponController weapon;
     private float playerSpeed;
     private float knockbackSpeed;
     private float oldPlayerSpeed;
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
                 if (!isAttacking)
                 {
                     isAttacking = true;
+                    StartCoroutine(AttackCooldown());
                     playerMovementInput = Vector3.zero;
                     weaponFX = Pooler.instance.Pop("FX_" + weaponName);
                     Pooler.instance.DelayedDePop(1, "FX_" + weaponName, weaponFX);
@@ -141,6 +143,12 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(2);
+        isAttacking = false;
     }
 
     private IEnumerator InteractingTime()
@@ -320,7 +328,8 @@ public class PlayerController : MonoBehaviour
     {
         if (hand.GetComponentInChildren<WeaponController>() != null)
         {
-            hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+            weapon = hand.GetComponentInChildren<WeaponController>();
+            weapon.DisableWeapon();
             isDisarmed = true;
         }
         effectTime = time;
@@ -369,7 +378,7 @@ public class PlayerController : MonoBehaviour
             playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
             if (isDisarmed)
             {
-                hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+                weapon.DisableWeapon();
                 isDisarmed = false;
             }
         }

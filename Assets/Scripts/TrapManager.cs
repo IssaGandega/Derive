@@ -142,7 +142,7 @@ public class TrapManager : MonoBehaviour
             activatingPlayer = player;
             isLoading = true;
             fx = Pooler.instance.Pop("Loading");
-            fx.transform.position = player.transform.position + Vector3.up*6;
+            fx.transform.position = transform.position + Vector3.up*5;
             meshRenderer = fx.GetComponent<MeshRenderer>();
             StartCoroutine(TrapSetCo());
         }
@@ -222,7 +222,7 @@ public class TrapManager : MonoBehaviour
 
         if ((meshRenderer.material.GetFloat(FillAmount) < 1 && isLoading))
         {
-            meshRenderer.material.SetFloat(FillAmount, meshRenderer.material.GetFloat(FillAmount) + 0.01f);
+            meshRenderer.material.SetFloat(FillAmount, meshRenderer.material.GetFloat(FillAmount) + 0.03f);
             StartCoroutine(TrapSetCo());
         }
         

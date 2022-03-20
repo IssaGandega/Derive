@@ -104,9 +104,11 @@ MonoBehaviour:
   trapSO: {fileID: 11400000, guid: 215fad56f7aa97a42a3f1e7ee7f68c7e, type: 2}
   type: 0
   state: 0
+  childMat: {fileID: 0}
   meshRenderer: {fileID: 0}
   activatingPlayer: {fileID: 0}
   player: {fileID: 0}
+  poufSound: {fileID: 8300000, guid: 4aca0acfeb2dfa24d9cacf1e9f3fb3b8, type: 3}
 --- !u!135 &5114889963840837343
 SphereCollider:
   m_ObjectHideFlags: 0

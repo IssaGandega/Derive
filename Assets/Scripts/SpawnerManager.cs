@@ -17,6 +17,7 @@ public class SpawnerManager : MonoBehaviour
 
     private GameObject weaponHolder;
     private static readonly int Attack = Animator.StringToHash("Attack");
+    [SerializeField] private AudioClip poufSound;
     public GameObject[] armes;
 
 
@@ -60,12 +61,13 @@ public class SpawnerManager : MonoBehaviour
         prefab = weapons[test];
         prefab = Pooler.instance.Pop(prefab.name);
         prefab.transform.position = transform.position + Vector3.up*3f;
+        AudioManager.PlaySound(poufSound, 0.5f);
         GetComponentInChildren<ParticleSystem>().Play();
     }
     
     private IEnumerator RerollWeapons()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
         Pooler.instance.DePop(prefab.name.Split('(')[0], prefab);
         SpawnRandomWeapon();
         StartCoroutine(RerollWeapons());

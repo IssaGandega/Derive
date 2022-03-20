@@ -107,6 +107,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   activatingPlayer: {fileID: 0}
   player: {fileID: 0}
+  poufSound: {fileID: 8300000, guid: 4aca0acfeb2dfa24d9cacf1e9f3fb3b8, type: 3}
 --- !u!135 &2448557836502425292
 SphereCollider:
   m_ObjectHideFlags: 0

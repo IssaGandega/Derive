@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce985e82f01eba4ca9c2f068d1295e1, type: 3}
   m_Name: LCR_boxe
   m_EditorClassIdentifier: 
-  power: 1
+  power: 2
   weight: 0
   attackSound: {fileID: 8300000, guid: bc5617e1698600d44b1584d935b564b1, type: 3}

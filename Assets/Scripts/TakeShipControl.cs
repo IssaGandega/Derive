@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class TakeShipControl : MonoBehaviour
@@ -19,6 +18,8 @@ public class TakeShipControl : MonoBehaviour
     
     [SerializeField] private GameObject traps;
     [SerializeField] private GameObject ropes;
+
+    [SerializeField] private AudioClip turnSound;
 
     public List<GameObject> playersInside;
     private static readonly int LerpOutline = Shader.PropertyToID("_LerpOutline");
@@ -76,6 +77,7 @@ public class TakeShipControl : MonoBehaviour
     private IEnumerator ChangeOwnership()
     {
         canChange = false;
+        AudioManager.PlaySound(turnSound, 0.2f);
         StartCoroutine(RotateRudder());
 
         if (playersInside[0].name == "Player_Red")

@@ -116,6 +116,8 @@ MonoBehaviour:
   - {fileID: 3325049394448235231, guid: 5b2b5e3cd52f7b24fb1a496dfebd1354, type: 3}
   selectedWeapon: 0
   isDetecting: 0
+  poufSound: {fileID: 8300000, guid: 4aca0acfeb2dfa24d9cacf1e9f3fb3b8, type: 3}
+  armes: []
 --- !u!1001 &6131090274785209882
 PrefabInstance:
   m_ObjectHideFlags: 0
