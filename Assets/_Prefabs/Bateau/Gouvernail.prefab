@@ -173,10 +173,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDetecting: 0
-  lerpOutline: 0
-  whichColor: 0
   rotationSpeed: 100
   boatMat: {fileID: 2100000, guid: d78543cbc73e71d498f4169bc31b8435, type: 2}
+  uduino: {fileID: 0}
+  traps: {fileID: 0}
+  ropes: {fileID: 0}
+  turnSound: {fileID: 8300000, guid: c012ac336052d334b916627957a4314f, type: 3}
+  playersInside: []
 --- !u!135 &3326941472102853011
 SphereCollider:
   m_ObjectHideFlags: 0

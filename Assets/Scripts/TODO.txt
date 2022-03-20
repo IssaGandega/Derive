@@ -1,12 +1,25 @@
-Add AttackFX
-add HitFX
-Créer boucle de jeu
+Cartes postales
+Penser à ce qu'on peut mettre dans le livret / la mise en forme
+
+Add AttackFX Issa
+
+Créer boucle de jeu Issa
+
 Add SoundManager
+
 Add Sound
+-> Mettre nom des pistes sons dans les fonctions correspondantes en dessous
+-> Si qqn est chaud faire des Play(son) Stop(son) avec la liste
+
 Add UI
+Faire une scene avec UI de départ (systeme de players ready)
+
+Faire un doss pour que Louis puisse refaire les LD
+Equilibrage / Bugtest au moins un GD
 
 
 
+AudioManager.PlaySound(nom, volume)
 
 Liste des fonctions utiles pour intégration:
 

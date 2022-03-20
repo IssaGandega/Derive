@@ -14,26 +14,43 @@ public class RopesManager : MonoBehaviour
         Blue
     }
 
+    public enum Type
+    {
+        Static,
+        Regular
+    }
+
+    
     public State state;
+    public Type type;
     private State lastState;
     private GameObject player;
     private GameObject fx;
     private Material actualMat;
 
+    [Space]
+    
     private bool isMoving;
     private bool isTowardMin;
 
     public float minScale = -1;
     public float maxScale = 1;
+    
+    [Space]
 
     [SerializeField] private float animationSpeed;
     [SerializeField] private int bounceNumber;
+
+    [Space] 
+    
+    [SerializeField] private AudioClip bounceSound;
+    [SerializeField] private AudioClip crackSound;
+    
 
     private int totalBounces;
     
     void Start()
     {
-        state = State.Disabled;
         actualMat = Instantiate(trapMat);
         gameObject.GetComponent<MeshRenderer>().material = actualMat;
     }
@@ -74,6 +91,7 @@ public class RopesManager : MonoBehaviour
             {
                 GetComponent<BoxCollider>().enabled = false;
                 StartCoroutine(DisableRope());
+                AudioManager.PlaySound(crackSound);
                 fx = Pooler.instance.Pop("Crack");
                 Pooler.instance.DelayedDePop(2, "Crack", fx);
                 fx.transform.position = transform.position;
@@ -86,6 +104,7 @@ public class RopesManager : MonoBehaviour
     {
         if (other.transform.GetComponent<PlayerController>())
         {
+            AudioManager.PlaySound(bounceSound);
             gameObject.GetComponent<MeshRenderer>().material.SetInt("_Idle", 0);
             //player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             player.GetComponent<PlayerController>().destination = player.transform.position;

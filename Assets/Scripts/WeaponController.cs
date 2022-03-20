@@ -10,16 +10,9 @@ public class WeaponController : MonoBehaviour
 	[SerializeField] private PlayerController playerController;
 
 	public float power = 0;
-	public float cooldown = 0;
 	public float weight;
-	public bool isActive;
-	private GameObject prefab;
 	private GameObject weapon;
-
-	private void Start()
-	{
-		//isActive = gameObject.active;
-	}
+	
 
 	//Put AudioSource on prefabs
 	public AudioClip attackSound;
@@ -29,10 +22,9 @@ public class WeaponController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		prefab = weaponSO.prefab;
 		power = weaponSO.power;
-		cooldown = weaponSO.cooldown;
 		weight = weaponSO.weight;
+		attackSound = weaponSO.attackSound;
 	}
 
 	public void DisableWeapon()

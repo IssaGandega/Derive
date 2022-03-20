@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce985e82f01eba4ca9c2f068d1295e1, type: 3}
   m_Name: LCR_epee
   m_EditorClassIdentifier: 
-  power: 5
-  cooldown: 1
+  power: 3
   weight: 1
-  prefab: {fileID: 4525932384461165818, guid: 4ca58ee3ab3ee6f49960fcea63606bff, type: 3}
-  attackSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: c37992162523d5845a37192338625b13, type: 3}

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &30979821797939820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6913491050302393300}
+  m_Layer: 0
+  m_Name: HitFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6913491050302393300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30979821797939820}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7747227729587796532}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7747227728278911781
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7747227729288987929}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.044, y: 6.2, z: 0.288}
+  m_LocalPosition: {x: -0.36, y: 6.2, z: 0.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7747227730234070658}
@@ -1310,10 +1340,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 7.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5996457134441370561}
+  - {fileID: 6913491050302393300}
   - {fileID: 7747227729288987934}
   - {fileID: 7747227728522598417}
   - {fileID: 7747227729218172258}
+  - {fileID: 5996457134441370561}
   - {fileID: 7747227730251562217}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1474,6 +1505,7 @@ MonoBehaviour:
   destination: {x: 0, y: 0, z: 0}
   isDrunk: 0
   isSoapy: 0
+  hitFXParent: {fileID: 30979821797939820}
   weaponName: 
   respawn: {fileID: 0}
 --- !u!1 &7747227729599930208
@@ -1997,7 +2029,7 @@ Transform:
   - {fileID: 6605374669257498222}
   - {fileID: 2198346907933955583}
   m_Father: {fileID: 7747227729587796532}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -32.7, y: -146.8, z: -143.8}
 --- !u!1 &7747227730272918970
 GameObject:
@@ -2089,7 +2121,7 @@ Transform:
   m_Children:
   - {fileID: 4765083374626625104}
   m_Father: {fileID: 7747227729587796532}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3413096838430872554
 PrefabInstance:
@@ -2212,6 +2244,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8641668778747541944, guid: 4ca58ee3ab3ee6f49960fcea63606bff, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ca58ee3ab3ee6f49960fcea63606bff, type: 3}
 --- !u!4 &560501113865389868 stripped
@@ -2226,6 +2262,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7747227730251562217}
     m_Modifications:
+    - target: {fileID: 4304647815320689172, guid: 17e9f6190dc8dca4aa6b2b9ffaa821f8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4759027408875798399, guid: 17e9f6190dc8dca4aa6b2b9ffaa821f8, type: 3}
       propertyPath: m_Name
       value: LCR_boxe
@@ -2292,6 +2332,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7747227730251562217}
     m_Modifications:
+    - target: {fileID: 2334964975838684263, guid: 5b2b5e3cd52f7b24fb1a496dfebd1354, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2697412506825433189, guid: 5b2b5e3cd52f7b24fb1a496dfebd1354, type: 3}
       propertyPath: m_RootOrder
       value: 1
