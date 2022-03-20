@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     private GameObject player1;
     [SerializeField] 
     private GameObject player2;
+    [SerializeField] 
+    private AudioClip music;
     
     private void Awake()
     {
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.PlaySound(music, 0.25f);
         player1.GetComponent<PlayerInput>()
             .SwitchCurrentControlScheme(player1.GetComponent<PlayerInput>().defaultControlScheme, Keyboard.current);
         player2.GetComponent<PlayerInput>()

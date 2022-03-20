@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
@@ -10,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerScriptableObject playerSO;
 
     [Space]
-    [SerializeField] private Animator animations;
     [SerializeField] private Rigidbody rb;
     
     [Space]
@@ -42,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private GameObject weaponFX;
     private GameObject hitFX;
     private GameObject hitFX2;
-    private WeaponController weapon;
+    public WeaponController weapon;
     private float playerSpeed;
     private float knockbackSpeed;
     private float oldPlayerSpeed;
@@ -52,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking;
     private bool isAttacked;
     private bool animationIsLocked;
-    private bool isDisarmed;
+    public bool isDisarmed;
     public bool isDrunk;
     public bool isSoapy;
     private bool isStunt;
@@ -121,33 +118,31 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !isAttacking)
         {
             if (hand.GetComponentInChildren<WeaponController>() != null)
             {
-                if (!isAttacking)
-                {
-                    isAttacking = true;
-                    StartCoroutine(AttackCooldown());
-                    playerMovementInput = Vector3.zero;
-                    weaponFX = Pooler.instance.Pop("FX_" + weaponName);
-                    Pooler.instance.DelayedDePop(1, "FX_" + weaponName, weaponFX);
+                gameObject.transform.position += transform.forward;
+                playerMovementInput = Vector3.zero;
 
-                    weaponFX.transform.parent = gameObject.transform;
-                    weaponFX.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    
-                    weaponFX.transform.position = hitFXParent.transform.position - Vector3.up*5;
-                    AudioManager.PlaySound(hand.GetComponentInChildren<WeaponController>().attackSound, Random.Range(0.3f, 0.6f));
-                    PlayAnimation("attack_" + weaponName, true);
-                    
-                }
+                weaponFX = Pooler.instance.Pop("FX_" + weaponName);
+                Pooler.instance.DelayedDePop(1, "FX_" + weaponName, weaponFX);
+
+                weaponFX.transform.parent = gameObject.transform;
+                weaponFX.transform.rotation = new Quaternion(0, 0, 0, 0);
+                
+                weaponFX.transform.position = hitFXParent.transform.position - Vector3.up*5;
+                AudioManager.PlaySound(hand.GetComponentInChildren<WeaponController>().attackSound, Random.Range(0.3f, 0.6f));
+                PlayAnimation("attack_" + weaponName, true);
+                StartCoroutine(AttackCooldown());
             }
         }
     }
 
     private IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(2);
+        isAttacking = true;
+        yield return new WaitForSeconds(hand.GetComponentInChildren<WeaponController>().cooldown);
         isAttacking = false;
     }
 
@@ -170,7 +165,8 @@ public class PlayerController : MonoBehaviour
         AudioManager.PlaySound(hurtSound, hurtVolume);
         if (hand.GetComponentInChildren<WeaponController>() != null)
         {
-            hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+            weapon = hand.GetComponentInChildren<WeaponController>();
+            weapon.DisableWeapon();
             isDisarmed = true;
         }
 
@@ -209,7 +205,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator GetWeaponBack()
     {
         yield return new WaitForSeconds(0.7f);
-        hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
+        weapon.DisableWeapon();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -242,8 +238,11 @@ public class PlayerController : MonoBehaviour
             
             Pooler.instance.DelayedDePop(2, "Hit1", hitFX);
             Pooler.instance.DelayedDePop(2, "Hit2", hitFX2);
-            
-            hitFX2.transform.rotation = Quaternion.LookRotation(transform.position - other.transform.parent.parent.position);
+
+            if ((transform.position - other.transform.parent.parent.position) != Vector3.zero)
+            {
+                hitFX2.transform.rotation = Quaternion.LookRotation(transform.position - other.transform.parent.parent.position);
+            }
 
             StartCoroutine(KnockbackHit(other.transform.parent.parent.position, other.transform.GetComponent<WeaponController>().power));
         }
@@ -402,7 +401,7 @@ public class PlayerController : MonoBehaviour
     {
         currentState = stateName;
         animationIsLocked = false;
-        isAttacking = false;
+        //isAttacking = false;
     }
 
     private void Update()
