@@ -211,10 +211,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapMat: {fileID: 2100000, guid: d78543cbc73e71d498f4169bc31b8435, type: 2}
   state: 0
+  type: 1
   minScale: -0.5
   maxScale: 0.5
   animationSpeed: 7
   bounceNumber: 3
+  bounceSound: {fileID: 8300000, guid: a2715f1d9ab17db449752aa1e687c7ba, type: 3}
+  crackSound: {fileID: 8300000, guid: 81363327b1e52f840882547ad24305de, type: 3}
 --- !u!65 &3268438435012491198
 BoxCollider:
   m_ObjectHideFlags: 0

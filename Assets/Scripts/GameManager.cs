@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +8,14 @@ public class GameManager : MonoBehaviour
     private GameObject player1;
     [SerializeField] 
     private GameObject player2;
-    
+
+
+    private void Awake()
+    {
+        AudioManager.Register();
+        DontDestroyOnLoad(this);
+    }
+
     private void Start()
     {
         player1.GetComponent<PlayerInput>()

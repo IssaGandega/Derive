@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce985e82f01eba4ca9c2f068d1295e1, type: 3}
   m_Name: LCR_maillet
   m_EditorClassIdentifier: 
-  power: 7
-  cooldown: 1
+  power: 4
   weight: 2
-  prefab: {fileID: 3325049394448235231, guid: 5b2b5e3cd52f7b24fb1a496dfebd1354, type: 3}
-  attackSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: f51091d0b020a714ebf0e10140da98e5, type: 3}

@@ -91,7 +91,6 @@ public class SpawnerManager : MonoBehaviour
                     //player.GetComponent<Animator>().SetBool(weapon.name, false);
                 }
             }
-            StopCoroutine(player.GetComponent<PlayerController>().AttackCooldown());
             //player.GetComponent<PlayerController>().animations.SetBool(Attack, false);
         }
 

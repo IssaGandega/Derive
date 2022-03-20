@@ -1,43 +1,72 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerSO;
+
+    [Space]
+    [SerializeField] private Animator animations;
+    [SerializeField] private Rigidbody rb;
     
+    [Space]
+    [SerializeField] private GameObject hitFXParent;
+    [SerializeField] private Transform respawn;
+
+    [Space] 
+    [SerializeField] private AudioClip hurtSound;
+    [Range(0.0f, 1.0f)] 
+    public float hurtVolume;
+    
+    [Space] 
+    [SerializeField] private AudioClip splashSound;
+    [Range(0.0f, 1.0f)] 
+    public float splashVolume;
+    
+    [Space] 
+    [SerializeField] private AudioClip moveSound;
+
+    [Space] 
+    [SerializeField] private AudioClip drunkSound;
+    [Range(0.0f, 1.0f)] 
+    public float drunkVolume;
+
+    [Space]
+    public bool interacting;
+    public GameObject hand;
+
+    private GameObject weaponFX;
+    private GameObject hitFX;
+    private GameObject hitFX2;
     private float playerSpeed;
     private float knockbackSpeed;
-
-    [Space]
-    public Animator animations;
-    [SerializeField] 
-    private Rigidbody rb;
-    
-    [Space]
-    public GameObject hand;
-    public bool interacting;
-
     private float oldPlayerSpeed;
-    public float effectTime;
-    private bool dead;
+    private float effectTime;
+    
+    private bool isDead;
+    private bool isAttacking;
+    private bool isAttacked;
+    private bool animationIsLocked;
+    private bool isDisarmed;
+    public bool isDrunk;
+    public bool isSoapy;
+    private bool isStunt;
+    
     private Vector2 movementInput = Vector2.zero;
     private Vector3 playerMovementInput;
     private Vector3 moveVector;
     public Vector3 destination;
-    private bool isAttacked;
-    public bool isDrunk;
-    public bool isSoapy;
+    
     private string currentState;
-    private bool animationLocked;
     public string weaponName;
 
-    private bool disarmed;
+    public bool isTurning;
     
-    [SerializeField]
-    private Transform respawn;
+
 
     private void Start()
     {
@@ -50,22 +79,27 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (isDrunk)
+
+        if (isDrunk && !isAttacking)
         {
             movementInput = context.ReadValue<Vector2>();
             playerMovementInput = new Vector3(-movementInput.x, 0, -movementInput.y);
         }
 
-        else if (isSoapy)
+        else if (isSoapy && !isAttacking)
         {
             movementInput = context.ReadValue<Vector2>();
         }
         
         else
         {
-            movementInput = context.ReadValue<Vector2>();
-            playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+            if (!isAttacking)
+            {
+                movementInput = context.ReadValue<Vector2>();
+                playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
+            }
         }
+        AudioManager.PlaySound(moveSound, Random.Range(0.1f, 0.4f));
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -77,6 +111,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnTurn(InputAction.CallbackContext context)
+    {
+        isTurning = true;
+        StartCoroutine(InteractingTime());
+    }
+
 
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -84,22 +124,31 @@ public class PlayerController : MonoBehaviour
         {
             if (hand.GetComponentInChildren<WeaponController>() != null)
             {
-                PlayAnimation("attack_" + weaponName, true);
+                if (!isAttacking)
+                {
+                    isAttacking = true;
+                    playerMovementInput = Vector3.zero;
+                    weaponFX = Pooler.instance.Pop("FX_" + weaponName);
+                    Pooler.instance.DelayedDePop(1, "FX_" + weaponName, weaponFX);
+
+                    weaponFX.transform.parent = gameObject.transform;
+                    weaponFX.transform.rotation = new Quaternion(0, 0, 0, 0);
+                    
+                    weaponFX.transform.position = hitFXParent.transform.position - Vector3.up*5;
+                    AudioManager.PlaySound(hand.GetComponentInChildren<WeaponController>().attackSound, Random.Range(0.3f, 0.6f));
+                    PlayAnimation("attack_" + weaponName, true);
+                    
+                }
             }
         }
     }
 
-    public IEnumerator AttackCooldown()
-    {
-        yield return new WaitForSeconds(hand.GetComponentInChildren<WeaponController>().cooldown);
-        //animations.SetBool("Attack", false);
-    }
-    
     private IEnumerator InteractingTime()
     {
         yield return new WaitForSeconds(0.1f);
 
-        interacting = false; 
+        interacting = false;
+        isTurning = false;
     }
     
     public void Struggle()
@@ -110,14 +159,20 @@ public class PlayerController : MonoBehaviour
     
     private IEnumerator KnockbackHit(Vector3 hit, float power)
     {
+        AudioManager.PlaySound(hurtSound, hurtVolume);
         if (hand.GetComponentInChildren<WeaponController>() != null)
         {
             hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
-            disarmed = true;
+            isDisarmed = true;
+        }
+
+        if (isStunt)
+        {
+            RestoreSpeed();
         }
         
-        PlayAnimation("hurt", true);
         
+        PlayAnimation("hurt", true);
         isAttacked = true;
         
         destination = transform.position +
@@ -127,16 +182,17 @@ public class PlayerController : MonoBehaviour
               (transform.position.z - hit.z) * power
           );
         
+        
         while ((isAttacked  && (destination - transform.position).magnitude > 4))
         {
             transform.position = Vector3.Lerp(transform.position, destination, knockbackSpeed * Time.deltaTime);
             yield return new WaitForFixedUpdate();
         }
         
-        if (disarmed)
+        if (isDisarmed)
         {
             StartCoroutine(GetWeaponBack());
-            disarmed = false;
+            isDisarmed = false;
         }        
         
         isAttacked = false;
@@ -156,14 +212,32 @@ public class PlayerController : MonoBehaviour
             isAttacked = false;
         }
 
-        if (other.transform.CompareTag("Weapon"))
-        {
-            StartCoroutine(KnockbackHit(other.transform.position, other.transform.GetComponent<WeaponController>().power));
-        }
-        
         if (other.transform.CompareTag("Water"))
         {
             StartCoroutine(DeathAnimation());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Weapon"))
+        {
+            hitFX = Pooler.instance.Pop("Hit1");
+            hitFX2 = Pooler.instance.Pop("Hit2");
+
+            hitFX.transform.parent = hitFXParent.transform;
+            hitFX2.transform.parent = hitFXParent.transform;
+            
+            hitFX.transform.position = hitFXParent.transform.position;
+            hitFX2.transform.position = hitFXParent.transform.position;
+            hitFX2.transform.rotation = new Quaternion(0, 0, 0, 0);
+            
+            Pooler.instance.DelayedDePop(2, "Hit1", hitFX);
+            Pooler.instance.DelayedDePop(2, "Hit2", hitFX2);
+            
+            hitFX2.transform.rotation = Quaternion.LookRotation(transform.position - other.transform.parent.parent.position);
+
+            StartCoroutine(KnockbackHit(other.transform.parent.parent.position, other.transform.GetComponent<WeaponController>().power));
         }
     }
 
@@ -175,14 +249,18 @@ public class PlayerController : MonoBehaviour
         }
         
         PlayAnimation("drowning", true);
+        AudioManager.PlaySound(splashSound, splashVolume);
         var splash = Pooler.instance.Pop("Plouf");
         splash.transform.position = transform.position;
         Pooler.instance.DelayedDePop(1, "Plouf", splash);
+        destination = transform.position;
+        
         yield return new WaitForSeconds(1);
         PlayAnimation("idle", false);
-        destination = transform.position;
         var nb = Random.Range(0, respawn.transform.childCount);
         transform.position = respawn.GetChild(nb).position;
+        
+
         effectTime = 0;
     }
 
@@ -201,6 +279,7 @@ public class PlayerController : MonoBehaviour
 
     public void Drunk(float speed, float time)
     {
+        AudioManager.PlaySound(drunkSound, drunkVolume);
         effectTime = time;
         playerSpeed = speed;
         isDrunk = true;
@@ -228,8 +307,12 @@ public class PlayerController : MonoBehaviour
     public void Stunt(float time, Vector3 pos, GameObject trap)
     {
         effectTime = time;
+        isStunt = true;
+        StopSpeed();
+        transform.position = new Vector3(pos.x, transform.position.y, pos.z);
+        PlayAnimation("stun_filet", true);
         trap.GetComponent<MeshRenderer>().enabled = true;
-        trap.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        trap.transform.GetChild(0).gameObject.SetActive(false);
         StartCoroutine(PlayerStunt(pos));
     }
 
@@ -238,7 +321,7 @@ public class PlayerController : MonoBehaviour
         if (hand.GetComponentInChildren<WeaponController>() != null)
         {
             hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
-            disarmed = true;
+            isDisarmed = true;
         }
         effectTime = time;
         PlayAnimation("slide", true);
@@ -257,20 +340,18 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator PlayerStunt(Vector3 pos)
     {
-        transform.position = new Vector3(pos.x, transform.position.y, pos.z);
-        PlayAnimation("stun_filet", true);
-        StopSpeed();
-        
+
         yield return new WaitForSeconds(1);
 
         if (effectTime <= 0)
         {
-            animationLocked = false;
+            animationIsLocked = false;
             RestoreSpeed();
         }
         else
         {
             StartCoroutine(PlayerStunt(pos));
+            isStunt = false;
             effectTime--;
         }
         
@@ -284,12 +365,12 @@ public class PlayerController : MonoBehaviour
         if (effectTime <= 0)
         {
             isSoapy = false;
-            animationLocked = false;
+            animationIsLocked = false;
             playerMovementInput = new Vector3(movementInput.x, 0, movementInput.y);
-            if (disarmed)
+            if (isDisarmed)
             {
                 hand.GetComponentInChildren<WeaponController>().DisableWeaponMesh();
-                disarmed = false;
+                isDisarmed = false;
             }
         }
         else
@@ -304,14 +385,15 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == newState) return;
         GetComponent<Animator>().Play(newState);
-        animationLocked = locked;
+        animationIsLocked = locked;
         currentState = newState;
     }
 
     public void UpdateState(string stateName)
     {
         currentState = stateName;
-        animationLocked = false;
+        animationIsLocked = false;
+        isAttacking = false;
     }
 
     private void Update()
@@ -320,12 +402,13 @@ public class PlayerController : MonoBehaviour
 
         if (playerMovementInput == Vector3.zero)
         {
-            if (!animationLocked) PlayAnimation("idle", false);
+            AudioManager.StopSound(moveSound);
+            if (!animationIsLocked) PlayAnimation("idle", false);
         }
         
         if (playerMovementInput != Vector3.zero)
         {
-            if(!animationLocked) PlayAnimation("run", false);
+            if(!animationIsLocked) PlayAnimation("run", false);
             gameObject.transform.forward = playerMovementInput.normalized;
         }
 

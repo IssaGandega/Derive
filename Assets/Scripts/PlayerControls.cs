@@ -43,7 +43,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Reset"",
+                    ""name"": ""Turn"",
                     ""type"": ""Button"",
                     ""id"": ""2b41ae09-969d-45b2-bcef-8bfeef62d949"",
                     ""expectedControlType"": ""Button"",
@@ -217,11 +217,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""847bbf47-d87c-4710-9e83-d96764d8abc0"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Reset"",
+                    ""groups"": ""KeyboardLeft"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71b3ae3a-e496-47bc-8c86-8d02087f107b"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyBoardRight"",
+                    ""action"": ""Turn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -280,7 +291,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
+        m_Player_Turn = m_Player.FindAction("Turn", throwIfNotFound: true);
         m_Player_Struggle = m_Player.FindAction("Struggle", throwIfNotFound: true);
     }
 
@@ -334,7 +345,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Reset;
+    private readonly InputAction m_Player_Turn;
     private readonly InputAction m_Player_Struggle;
     public struct PlayerActions
     {
@@ -343,7 +354,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Reset => m_Wrapper.m_Player_Reset;
+        public InputAction @Turn => m_Wrapper.m_Player_Turn;
         public InputAction @Struggle => m_Wrapper.m_Player_Struggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -363,9 +374,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Reset.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
-                @Reset.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
-                @Reset.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
+                @Turn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTurn;
+                @Turn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTurn;
+                @Turn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTurn;
                 @Struggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
                 @Struggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
                 @Struggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
@@ -382,9 +393,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @Reset.started += instance.OnReset;
-                @Reset.performed += instance.OnReset;
-                @Reset.canceled += instance.OnReset;
+                @Turn.started += instance.OnTurn;
+                @Turn.performed += instance.OnTurn;
+                @Turn.canceled += instance.OnTurn;
                 @Struggle.started += instance.OnStruggle;
                 @Struggle.performed += instance.OnStruggle;
                 @Struggle.canceled += instance.OnStruggle;
@@ -415,7 +426,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnReset(InputAction.CallbackContext context);
+        void OnTurn(InputAction.CallbackContext context);
         void OnStruggle(InputAction.CallbackContext context);
     }
 }

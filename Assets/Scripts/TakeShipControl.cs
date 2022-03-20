@@ -60,11 +60,16 @@ public class TakeShipControl : MonoBehaviour
 
     private void TakeControl()
     {
-        if (playersInside.Count == 1 && canChange && (encoder.gouvCurrentValue > initGouvValue + 10 || encoder.gouvCurrentValue < initGouvValue - 10))
+        if (playersInside.Count == 1 && canChange) //&& (encoder.gouvCurrentValue > initGouvValue + 10 || encoder.gouvCurrentValue < initGouvValue - 10))
         {
-            initGouvValue = encoder.gouvCurrentValue;
-            playersInside[0].GetComponent<PlayerController>().PlayAnimation("turn_runner", true);
-            StartCoroutine(ChangeOwnership());
+            //To Remove
+            if (playersInside[0].GetComponent<PlayerController>().isTurning)
+            {
+                initGouvValue = encoder.gouvCurrentValue;
+                playersInside[0].GetComponent<PlayerController>().PlayAnimation("turn_runner", true);
+                StartCoroutine(ChangeOwnership());
+                playersInside[0].GetComponent<PlayerController>().isTurning = false;
+            }
         }
     }
 
@@ -79,7 +84,10 @@ public class TakeShipControl : MonoBehaviour
             boatMat.SetFloat(WhichColor, 0);
             foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
             {
-                rope.state = RopesManager.State.Red;
+                if (rope.type == RopesManager.Type.Regular)
+                {
+                    rope.state = RopesManager.State.Red;
+                }
             }
             foreach (var trap in traps.GetComponentsInChildren<TrapManager>())
             {
@@ -103,7 +111,10 @@ public class TakeShipControl : MonoBehaviour
             boatMat.SetFloat(WhichColor, 1);
             foreach (var rope in ropes.GetComponentsInChildren<RopesManager>())
             {
-                rope.state = RopesManager.State.Blue;
+                if (rope.type == RopesManager.Type.Regular)
+                {
+                    rope.state = RopesManager.State.Blue;
+                }
             }
             foreach (var trap in traps.GetComponentsInChildren<TrapManager>())
             {

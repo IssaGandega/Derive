@@ -15,6 +15,6 @@ public class SeagullMove : MonoBehaviour
             transform.position = new Vector3(Random.Range(-70, -50), transform.position.y, Random.Range(-70, 70));
             transform.Rotate(new Vector3(0, Random.Range(0, 180), 0));
         }
-        gameObject.transform.position += transform.forward / 10;
+        gameObject.transform.position += transform.forward / 4;
     }
 }
