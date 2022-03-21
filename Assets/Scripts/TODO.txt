@@ -1,12 +1,5 @@
 Cartes postales
 Penser à ce qu'on peut mettre dans le livret / la mise en forme
-
-Add AttackFX Issa
-
-Créer boucle de jeu Issa
-
-Add SoundManager
-
 Add Sound
 -> Mettre nom des pistes sons dans les fonctions correspondantes en dessous
 -> Si qqn est chaud faire des Play(son) Stop(son) avec la liste

@@ -149,7 +149,26 @@ public class TakeShipControl : MonoBehaviour
         {
             StartCoroutine(RotateRudder());
         }
+    }
 
-        
+    public void ResetRound()
+    {
+        ResetRudder();
+        foreach (Transform trap in traps.transform)
+        {
+            trap.GetComponent<TrapManager>().ResetTrap();
+        }
+
+        foreach (Transform rope in ropes.transform)
+        {
+            rope.GetComponentInChildren<RopesManager>().ResetRope();
+        }
+    }
+
+    private void ResetRudder()
+    {
+        boatMat.SetFloat(LerpOutline, 0);
+        initGouvValue = encoder.gouvCurrentValue;
+        playersInside.Clear();
     }
 }

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject currentPlayer2;
 
     public GameObject introPlayers;
+    public bool hasStarted;
     
     private void Awake()
     {
@@ -35,7 +36,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         AudioManager.PlayMusic(music, 0.25f);
-        
         player1.GetComponent<PlayerInput>()
             .SwitchCurrentControlScheme(player1.GetComponent<PlayerInput>().defaultControlScheme, Keyboard.current);
         player2.GetComponent<PlayerInput>()
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerControls(GameObject player1, GameObject player2)
     {
+        hasStarted = true;
         currentPlayer1 = player1;
         currentPlayer2 = player2;
         introPlayers.SetActive(false);
@@ -61,6 +62,9 @@ public class GameManager : MonoBehaviour
 
     public void GameReset()
     {
+        AudioManager.StopMusic(music);
+        AudioManager.PlayMusic(music, 0.25f);
+        
         player1.GetComponent<PlayerInput>()
             .SwitchCurrentControlScheme(player1.GetComponent<PlayerInput>().defaultControlScheme, Keyboard.current);
         player2.GetComponent<PlayerInput>()

@@ -197,8 +197,9 @@ public class UI_Manager : MonoBehaviour
 
         data.currentRound++;
         ResetUI();
+        currentLD.GetComponentInChildren<TakeShipControl>().ResetRound();
         GameManager.instance.ResetRound();
-        AudioManager.PlaySound(startSound);
+        AudioManager.PlaySound(startSound, 0.3f);
         playerRuban[0].SetActive(false);
         playerRuban[1].SetActive(false);
         blockPlayers = false;
@@ -207,7 +208,7 @@ public class UI_Manager : MonoBehaviour
     //is called to display who won and who loose.
     private IEnumerator DisplayGameResultCoroutine(byte winner)
     {
-        AudioManager.PlaySound(startSound);
+        AudioManager.PlaySound(startSound, 0.3f);
         if (winner == 1) 
         {
             resultText[0].text = "VICTORY";
@@ -261,6 +262,9 @@ public class UI_Manager : MonoBehaviour
         {
             obj.SetActive(false);
         }
+        GameManager.instance.ResetRound();
+        currentLD.GetComponentInChildren<TakeShipControl>().ResetRound();
+        
         GameManager.instance.introPlayers.SetActive(true);
         GameManager.instance.GameReset();
         foreach (Transform pool in pooler.transform)

@@ -137,6 +137,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && !isAttacking)
         {
+            if (!UI_Manager.instance.playersReady[0] || !UI_Manager.instance.playersReady[1])
+            {
+                AudioManager.PlaySound(readySound, 0.4f);
+                UI_Manager.instance.PlayerReady(playerID);
+            }
+            
             if (hand.GetComponentInChildren<WeaponController>() != null)
             {
                 gameObject.transform.position += transform.forward;
