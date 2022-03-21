@@ -1472,7 +1472,19 @@ MonoBehaviour:
     m_ActionId: 696f6522-ffc3-4b38-85d2-5360c4409167
     m_ActionName: Player/Attack[/Keyboard/q,/Keyboard/rightShift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2731263407898043174}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnTurn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2b41ae09-969d-45b2-bcef-8bfeef62d949
     m_ActionName: Player/Reset[/Keyboard/space]
   - m_PersistentCalls:
@@ -1497,17 +1509,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSO: {fileID: 11400000, guid: c598f26ef3c0f404b8280af48edd0cb4, type: 2}
-  animations: {fileID: 7747227729587796535}
   rb: {fileID: 2731263407898043224}
-  hand: {fileID: 7747227730251562216}
+  hitFXParent: {fileID: 30979821797939820}
+  respawn: {fileID: 0}
+  hurtSound: {fileID: 0}
+  hurtVolume: 0
+  splashSound: {fileID: 0}
+  splashVolume: 0
+  moveSound: {fileID: 0}
+  drunkSound: {fileID: 0}
+  drunkVolume: 0
   interacting: 0
-  effectTime: 0
-  destination: {x: 0, y: 0, z: 0}
+  hand: {fileID: 7747227730251562216}
+  weapon: {fileID: 0}
+  isDisarmed: 0
   isDrunk: 0
   isSoapy: 0
-  hitFXParent: {fileID: 30979821797939820}
+  destination: {x: 0, y: 0, z: 0}
   weaponName: 
-  respawn: {fileID: 0}
+  isTurning: 0
 --- !u!1 &7747227729599930208
 GameObject:
   m_ObjectHideFlags: 0

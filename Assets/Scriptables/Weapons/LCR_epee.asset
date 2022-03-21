@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 3
   weight: 1
+  cooldown: 0.667
+  inertia: 1.5
   attackSound: {fileID: 8300000, guid: c37992162523d5845a37192338625b13, type: 3}

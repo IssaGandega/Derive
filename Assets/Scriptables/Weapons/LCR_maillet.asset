@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: LCR_maillet
   m_EditorClassIdentifier: 
   power: 4
-  weight: 2
+  weight: 4
+  cooldown: 1.167
+  inertia: 0
   attackSound: {fileID: 8300000, guid: f51091d0b020a714ebf0e10140da98e5, type: 3}

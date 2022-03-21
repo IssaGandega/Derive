@@ -11,7 +11,9 @@ public class WeaponController : MonoBehaviour
 
 	public float power = 0;
 	public float weight;
+	public float cooldown;
 	private GameObject weapon;
+	public float inertia;
 	
 
 	//Put AudioSource on prefabs
@@ -25,6 +27,8 @@ public class WeaponController : MonoBehaviour
 		power = weaponSO.power;
 		weight = weaponSO.weight;
 		attackSound = weaponSO.attackSound;
+		cooldown = weaponSO.cooldown;
+		inertia = weaponSO.inertia;
 	}
 
 	public void DisableWeapon()
