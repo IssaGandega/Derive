@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1);
         PlayAnimation("idle", false);
         var nb = Random.Range(0, respawn.transform.childCount);
-        transform.position = respawn.GetChild(nb).position;
+        transform.position = respawn.position;
         
 
         effectTime = 0;
