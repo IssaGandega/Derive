@@ -9,6 +9,7 @@ public class TrapManager : MonoBehaviour
     [SerializeField] private Material trapMat;
     [SerializeField] private GameObject smoke;
     [SerializeField] private TrapScriptableObject trapSO;
+    [SerializeField] private AudioClip setSound;
 
     public enum State
     {
@@ -120,10 +121,10 @@ public class TrapManager : MonoBehaviour
                     activatingPlayer = null;
                     break;
                 case State.Blue:
-                    childMat.SetColor(OutlineColor, Color.blue);
+                    childMat.SetColor(OutlineColor, new Color(0, 0, 10,1));
                     break;
                 case State.Red:
-                    childMat.SetColor(OutlineColor, Color.red);
+                    childMat.SetColor(OutlineColor, new Color(10, 0,0,1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -142,6 +143,7 @@ public class TrapManager : MonoBehaviour
             activatingPlayer = player;
             isLoading = true;
             fx = Pooler.instance.Pop("Loading");
+            Pooler.instance.DelayedDePop(2, "Loading", fx);
             fx.transform.position = transform.position + Vector3.up*5;
             meshRenderer = fx.GetComponent<MeshRenderer>();
             StartCoroutine(TrapSetCo());
@@ -157,6 +159,7 @@ public class TrapManager : MonoBehaviour
 
     public void ChangeTrap()
     {
+        AudioManager.PlaySound(setSound, 0.2f);
         StartCoroutine(TrapResetCo());
         smoke.GetComponent<ParticleSystem>().Play();
         GetComponent<MeshRenderer>().enabled = false;

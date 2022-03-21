@@ -18,6 +18,7 @@ public class SpawnerManager : MonoBehaviour
     private GameObject weaponHolder;
     private static readonly int Attack = Animator.StringToHash("Attack");
     [SerializeField] private AudioClip poufSound;
+    [SerializeField] private AudioClip pickupSound;
     public GameObject[] armes;
 
 
@@ -81,6 +82,7 @@ public class SpawnerManager : MonoBehaviour
             {
                 if (weapon.gameObject.name == prefab.name.Replace("(Clone)", ""))
                 {
+                    AudioManager.PlaySound(pickupSound, 0.4f);
                     StartCoroutine(GetWeapon(weapon));
                     //player.GetComponent<Animator>().Play("pick_up");
                     player.GetComponent<PlayerController>().PlayAnimation("pick_up", true);
@@ -90,6 +92,10 @@ public class SpawnerManager : MonoBehaviour
                 else
                 { 
                     weapon.gameObject.SetActive(false);
+                    if (player.GetComponent<PlayerController>().isDisarmed)
+                    {
+                        player.GetComponent<PlayerController>().weapon.gameObject.SetActive(false);
+                    }
                     //player.GetComponent<Animator>().SetBool(weapon.name, false);
                 }
             }

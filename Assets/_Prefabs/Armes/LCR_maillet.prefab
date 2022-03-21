@@ -94,10 +94,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
-  m_Radius: 0.92
-  m_Height: 4.13
+  m_Radius: 1.8
+  m_Height: 4.85
   m_Direction: 0
-  m_Center: {x: -0.000000059604645, y: -1.96, z: 0.0000010430813}
+  m_Center: {x: -0.000000059604645, y: -2.39, z: 0.0000010430813}
 --- !u!114 &3908985700195411999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,9 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
   power: 0
-  cooldown: 0
   weight: 0
-  isActive: 0
+  cooldown: 0
   attackSound: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: cffcbc8bf9ec2374ba034d93da33648b, type: 2}
 --- !u!54 &2393918646769701448
