@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce985e82f01eba4ca9c2f068d1295e1, type: 3}
   m_Name: LCR_epee
   m_EditorClassIdentifier: 
-  power: 3
+  power: 2.5
   weight: 1
   cooldown: 0.667
   inertia: 1.5

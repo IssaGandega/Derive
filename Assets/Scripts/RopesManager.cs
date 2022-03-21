@@ -49,10 +49,13 @@ public class RopesManager : MonoBehaviour
 
     private int totalBounces;
     
-    void Start()
+    void OnEnable()
     {
-        actualMat = Instantiate(trapMat);
-        gameObject.GetComponent<MeshRenderer>().material = actualMat;
+        if (type == Type.Regular)
+        {
+            actualMat = Instantiate(trapMat);
+            gameObject.GetComponent<MeshRenderer>().material = actualMat;
+        }
     }
 
     private void Update()

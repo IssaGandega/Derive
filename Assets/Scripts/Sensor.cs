@@ -7,7 +7,7 @@ public class Sensor : MonoBehaviour
     public Material baseMaterial;
     private GameObject player;
 
-    private void Start()
+    private void OnEnable()
     {
         baseMaterial = GetComponent<MeshRenderer>().material;
     }

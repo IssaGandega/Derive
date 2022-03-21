@@ -5,6 +5,7 @@ public class WeaponScriptableObject : ScriptableObject
 {
 	public float power = 1;
 	public float weight;
+	[HideInInspector]
 	public float cooldown;
 	public float inertia;
 	

@@ -46,7 +46,7 @@ public class TrapManager : MonoBehaviour
     private static readonly int LerpOutline = Shader.PropertyToID("_LerpOutline");
     private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
 
-    private void Start()
+    private void OnEnable()
     {
         state = State.Disabled;
         gameObject.GetComponent<MeshRenderer>().materials[1].SetFloat(LerpOutline, 0);
@@ -138,6 +138,7 @@ public class TrapManager : MonoBehaviour
     {
         if (isDetecting && state == State.Disabled && player.GetComponent<PlayerController>().interacting && !isLoading)
         {
+            AudioManager.PlaySound(setSound, 0.2f);
             player.GetComponent<PlayerController>().StopSpeed();
             player.GetComponent<PlayerController>().PlayAnimation("pick_up", true);
             activatingPlayer = player;
@@ -159,7 +160,6 @@ public class TrapManager : MonoBehaviour
 
     public void ChangeTrap()
     {
-        AudioManager.PlaySound(setSound, 0.2f);
         StartCoroutine(TrapResetCo());
         smoke.GetComponent<ParticleSystem>().Play();
         GetComponent<MeshRenderer>().enabled = false;
@@ -225,6 +225,7 @@ public class TrapManager : MonoBehaviour
 
         if ((meshRenderer.material.GetFloat(FillAmount) < 1 && isLoading))
         {
+            // Ici modif durée activation piège
             meshRenderer.material.SetFloat(FillAmount, meshRenderer.material.GetFloat(FillAmount) + 0.03f);
             StartCoroutine(TrapSetCo());
         }
@@ -249,8 +250,8 @@ public class TrapManager : MonoBehaviour
     
     private void FutEffect()
     {
-        fx = Pooler.instance.Pop("LOW_drunk");
-        Pooler.instance.DelayedDePop(2, "LOW_drunk", fx);
+        fx = Pooler.instance.Pop("Drunk_Master");
+        Pooler.instance.DelayedDePop(2, "Drunk_Master", fx);
         fx.transform.position = player.transform.position + Vector3.up*6;
         fx.transform.parent = player.transform;
         
@@ -259,12 +260,13 @@ public class TrapManager : MonoBehaviour
         sploush.transform.position = player.transform.position;
         sploush.transform.parent = player.transform;
         
-        player.GetComponent<PlayerController>().Drunk(2,effectDuration);
+        // Effet de la bière modif speed
+        player.GetComponent<PlayerController>().Drunk(5,effectDuration);
     }
     private void FiletEffect()
     {
-        fx = Pooler.instance.Pop("LOW_stunt");
-        Pooler.instance.DelayedDePop(2, "LOW_stunt", fx);
+        fx = Pooler.instance.Pop("LOW_stun_Fx");
+        Pooler.instance.DelayedDePop(2, "LOW_stun_Fx", fx);
         fx.transform.position = player.transform.position + Vector3.up*6;
         fx.transform.parent = player.transform;
         

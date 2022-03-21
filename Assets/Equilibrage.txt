@@ -1,0 +1,10 @@
+Durée d'activation des pièges
+-> Trap Manager TrapSetCo
+
+Modifier durée du slow des bières
+-> Trap Manager FutEffect
+
+Modifier vitesse de spawn des armes
+-> SpawnerManager RerollWeapons
+
+Reste dans les Scriptables

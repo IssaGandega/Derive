@@ -67,13 +67,14 @@ public class AudioManager : MonoBehaviour
     public void PlaySound(int soundId) => PlayAudio(soundClips[soundId], AudioType.SOUND);
     */
 
+    
+    /// <summary>
+    /// Method used to instantly play a music.
+    /// </summary>
+    /// <param name="musicClip">the music you want to play</param>
+    public static void PlayMusic(AudioClip musicClip, float volume) => instance.StartCoroutine(instance.PlayAudio(musicClip, AudioType.Music, volume, 0f));
+    
     /*
-        /// <summary>
-        /// Method used to instantly play a music.
-        /// </summary>
-        /// <param name="musicClip">the music you want to play</param>
-        public static void PlayMusic(AudioClip musicClip) => instance.StartCoroutine(instance.PlayAudio(musicClip, AudioType.Music, 0f));
-
         /// <summary>
         /// Method used to play a music. Delay is measured in seconds and will delay the start by its value
         /// </summary>

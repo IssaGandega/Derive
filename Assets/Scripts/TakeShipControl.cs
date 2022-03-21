@@ -30,7 +30,7 @@ public class TakeShipControl : MonoBehaviour
         boatMat.SetFloat(LerpOutline, 0);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         encoder = uduino.GetComponent<EncoderReader>();
         initGouvValue = uduino.GetComponent<EncoderReader>().gouvCurrentValue;

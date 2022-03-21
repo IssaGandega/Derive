@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject hitFXParent;
     [SerializeField] private Transform respawn;
 
+    [SerializeField] private AudioClip readySound;
+    
     [Space] 
     [SerializeField] private AudioClip hurtSound;
     [Range(0.0f, 1.0f)] 
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private float knockbackSpeed;
     private float oldPlayerSpeed;
     private float effectTime;
+    public int playerID;
     
     private bool isDead;
     private bool isAttacking;
@@ -66,18 +70,25 @@ public class PlayerController : MonoBehaviour
     
 
 
-    private void Start()
+    private void OnEnable()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
 
         playerSpeed = playerSO.playerSpeed;
         knockbackSpeed = playerSO.knockbackSpeed;
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
 
+        if (UI_Manager.instance.blockPlayers)
+        {
+            playerMovementInput = Vector3.zero;
+            return;
+        }
+        
         if (isDrunk && !isAttacking)
         {
             movementInput = context.ReadValue<Vector2>();
@@ -104,6 +115,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && !interacting)
         {
+            if (!UI_Manager.instance.playersReady[0] || !UI_Manager.instance.playersReady[1])
+            {
+                AudioManager.PlaySound(readySound, 0.4f);
+                UI_Manager.instance.PlayerReady(playerID);
+            }
+            
             interacting = true;
             StartCoroutine(InteractingTime());
         }
@@ -253,6 +270,15 @@ public class PlayerController : MonoBehaviour
         if (hand.GetComponentInChildren<WeaponController>() != null)
         {
             hand.GetComponentInChildren<WeaponController>().DisableWeapon();
+        }
+
+        if (playerID == 1)
+        {
+            UI_Manager.instance.EndRound(2);
+        }
+        else
+        {
+            UI_Manager.instance.EndRound(1);
         }
         
         PlayAnimation("drowning", true);
@@ -419,6 +445,15 @@ public class PlayerController : MonoBehaviour
             if(!animationIsLocked) PlayAnimation("run", false);
             gameObject.transform.forward = playerMovementInput.normalized;
         }
+    }
 
+    public void ResetPlayers()
+    {
+        foreach (Transform weapon in hand.transform)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+
+        transform.position = respawn.position;
     }
 }

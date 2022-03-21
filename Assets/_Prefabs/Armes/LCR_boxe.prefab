@@ -95,8 +95,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.85
-  m_Center: {x: 0.12, y: -0.5, z: -0.00000008940697}
+  m_Radius: 1.23
+  m_Center: {x: 0.12, y: -0.47, z: -0.00000008940697}
 --- !u!114 &-5819259741247403335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,9 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
   power: 0
-  cooldown: 0
   weight: 0
-  isActive: 0
+  cooldown: 0
+  inertia: 0
   attackSound: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: 86b4a94fa890210499e8ba57629d9230, type: 2}
 --- !u!54 &2492853555306161169

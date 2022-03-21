@@ -1,17 +1,19 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Random = System.Random;
 
 public class UI_Manager : MonoBehaviour
 {
     public static UI_Manager instance;
 
+    [SerializeField] private AudioClip startSound;
+    [SerializeField] private GameObject pooler;
+
+
+    //Levels
+    [SerializeField] private GameObject[] levels;
+    
     //Data
     [SerializeField] private Data data;
     public byte[] playerspoints;
@@ -32,8 +34,11 @@ public class UI_Manager : MonoBehaviour
     //Ready UI
     [SerializeField] private GameObject[] bluePlayerOutline, redPlayerOutline;
     private bool warningPlayed;
-    private bool[] playersReady; // 0 = Blue; 1 = Red
+    public bool[] playersReady; // 0 = Blue; 1 = Red
     private Coroutine warningCoroutine;
+
+    public GameObject currentLD;
+    public bool blockPlayers;
 
     void Start()
     {
@@ -53,6 +58,7 @@ public class UI_Manager : MonoBehaviour
         //StartCoroutine(DebugCoroutine());
     }
     
+    /*
     private IEnumerator DebugCoroutine()
     {
         if (data.currentRound == 0)
@@ -70,7 +76,7 @@ public class UI_Manager : MonoBehaviour
             yield return new WaitForSeconds(5);
             EndRound(UnityEngine.Random.Range(1, 3));
         }
-    }
+    }*/
 
     public void PlayerReady(int player)
     {
@@ -78,6 +84,7 @@ public class UI_Manager : MonoBehaviour
         {
             if (warningCoroutine != null) return;
             warningCoroutine = StartCoroutine(StartWarning());
+            return;
         }
 
         if (player == 1 && !playersReady[0])
@@ -103,6 +110,14 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    private void ResetUI()
+    {
+        foreach (var ui in UIScreen)
+        {
+            ui.SetActive(false);
+        }
+    }
+
     private IEnumerator StartWarning()
     {
         UIScreen[5].SetActive(true);
@@ -118,9 +133,14 @@ public class UI_Manager : MonoBehaviour
     private IEnumerator StartGame()
     {
         yield return new WaitForSeconds(5);
-        data.level = UnityEngine.Random.Range(1, 4);
+        data.level = Random.Range(0, 3);
         data.currentRound = 1;
-        SceneManager.LoadScene(data.level);
+        levels[data.level].SetActive(true);
+        currentLD = levels[data.level];
+        GameManager.instance.PlayerControls(currentLD.GetComponent<InfosLD>().bluePlayer, currentLD.GetComponent<InfosLD>().redPlayer);
+        AudioManager.PlaySound(startSound, 0.3f);
+        ResetUI();
+        //SceneManager.LoadScene(data.level);
     }
     
     public void EndRound(int winner)
@@ -139,6 +159,7 @@ public class UI_Manager : MonoBehaviour
     //Called to display round results
     private IEnumerator DisplayEndRoundCoroutine(byte winner)
     {
+        blockPlayers = true;
         //Display end round UI
         for (int i = 0; i < bluePointImages.Length / 2; i++)
         {
@@ -175,14 +196,28 @@ public class UI_Manager : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         data.currentRound++;
-        SceneManager.LoadScene(data.level);
+        ResetUI();
+        GameManager.instance.ResetRound();
+        AudioManager.PlaySound(startSound);
+        playerRuban[0].SetActive(false);
+        playerRuban[1].SetActive(false);
+        blockPlayers = false;
     }
 
-    //is called to diaplay who won and who loose.
+    //is called to display who won and who loose.
     private IEnumerator DisplayGameResultCoroutine(byte winner)
     {
-        if (winner == 1) resultText[0].text = "VICTORY";
-        else resultText[1].text = "VICTORY";
+        AudioManager.PlaySound(startSound);
+        if (winner == 1) 
+        {
+            resultText[0].text = "VICTORY";
+            resultText[1].text = "DEFEAT";
+        }
+        else
+        {
+            resultText[1].text = "VICTORY";
+            resultText[0].text = "DEFEAT";
+        }
 
         for (int i = 0; i < bluePlayerPoint.Length; i++)
         {
@@ -202,7 +237,6 @@ public class UI_Manager : MonoBehaviour
                 bluePlayerPoint[i].color = pointColor[1];
             }
         }
-
         UIScreen[4].SetActive(true);
         yield return new WaitForSeconds(5);
         UIScreen[5].SetActive(true);
@@ -212,6 +246,42 @@ public class UI_Manager : MonoBehaviour
         {
             data.whoWonRound[i] = 0;
         }
-        SceneManager.LoadScene(0);
+        
+        playersReady[0] = false;
+        playersReady[1] = false;
+        playerspoints[0] = 0;
+        playerspoints[1] = 0;
+        warningPlayed = false;
+        warningCoroutine = null;
+        foreach (GameObject obj in redPlayerOutline)
+        {
+            obj.SetActive(false);
+        }
+        foreach (GameObject obj in bluePlayerOutline)
+        {
+            obj.SetActive(false);
+        }
+        GameManager.instance.introPlayers.SetActive(true);
+        GameManager.instance.GameReset();
+        foreach (Transform pool in pooler.transform)
+        {
+            if (pool.gameObject.activeSelf)
+            {
+                Pooler.instance.DePop(pool.name.Replace("(Clone)", ""), pool.gameObject);
+            }
+        }
+        ResetUI();
+        
+        if (data.currentRound == 0)
+        {
+            UIScreen[0].SetActive(true);
+        }
+        foreach (int i in data.whoWonRound)
+        {
+            if (i == 1) playerspoints[0]++;
+            else if (i == 2) playerspoints[1]++;
+        }
+        
+        currentLD.SetActive(false);
     }  
 }

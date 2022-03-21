@@ -9,7 +9,7 @@ public class UI_SquareFill : MonoBehaviour
     [SerializeField] float tweentime, start_fill, end_fill, delay;
     [SerializeField] Color beginColor, endColor;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         image.fillAmount = 0;
         LeanTween.value(gameObject, start_fill, end_fill, tweentime)
