@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f7f6c03b68874469f2d4d74653afe7, type: 3}
   m_Name: data
   m_EditorClassIdentifier: 
-  level: 0
-  currentRound: 0
+  level: 2
+  currentRound: 1
   whoWonRound: 0000000000000000000000000000000000000000

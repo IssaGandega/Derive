@@ -20,7 +20,7 @@ public class UI_Bounce_Move_Fade : MonoBehaviour
     [SerializeField] Color beginColor, endColor;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         Gameobject.localPosition = new Vector2(X_Start, Y_Start);
         image.color = beginColor;

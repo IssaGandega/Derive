@@ -49,10 +49,22 @@ public class RopesManager : MonoBehaviour
 
     private int totalBounces;
     
-    void Start()
+    void OnEnable()
     {
-        actualMat = Instantiate(trapMat);
-        gameObject.GetComponent<MeshRenderer>().material = actualMat;
+        if (type == Type.Regular)
+        {
+            state = State.Disabled;
+            actualMat = Instantiate(trapMat);
+            gameObject.GetComponent<MeshRenderer>().material = actualMat;
+        }
+    }
+
+    public void ResetRope()
+    {
+        if (type == Type.Regular)
+        {
+            state = State.Disabled;
+        }
     }
 
     private void Update()
@@ -94,7 +106,7 @@ public class RopesManager : MonoBehaviour
                 AudioManager.PlaySound(crackSound);
                 fx = Pooler.instance.Pop("Crack");
                 Pooler.instance.DelayedDePop(2, "Crack", fx);
-                fx.transform.position = transform.position;
+                fx.transform.position = transform.position + Vector3.up * 2;
                 fx.transform.parent = transform;
             }
         }

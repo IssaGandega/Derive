@@ -30,7 +30,7 @@ public class TakeShipControl : MonoBehaviour
         boatMat.SetFloat(LerpOutline, 0);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         encoder = uduino.GetComponent<EncoderReader>();
         initGouvValue = uduino.GetComponent<EncoderReader>().gouvCurrentValue;
@@ -149,7 +149,26 @@ public class TakeShipControl : MonoBehaviour
         {
             StartCoroutine(RotateRudder());
         }
+    }
 
-        
+    public void ResetRound()
+    {
+        ResetRudder();
+        foreach (Transform trap in traps.transform)
+        {
+            trap.GetComponent<TrapManager>().ResetTrap();
+        }
+
+        foreach (Transform rope in ropes.transform)
+        {
+            rope.GetComponentInChildren<RopesManager>().ResetRope();
+        }
+    }
+
+    private void ResetRudder()
+    {
+        boatMat.SetFloat(LerpOutline, 0);
+        initGouvValue = encoder.gouvCurrentValue;
+        playersInside.Clear();
     }
 }

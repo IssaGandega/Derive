@@ -9,7 +9,7 @@ public Image image;
     [SerializeField] float tweentime, start_fill, end_fill, delay;
     public Color beginColor, endColor;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         endColor = GetComponent<Image>().color;
         image.fillAmount = 0;

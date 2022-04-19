@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ef4b67918482f4c8986987187f0e4d, type: 3}
   m_Name: Filet
   m_EditorClassIdentifier: 
-  effectDuration: 6
+  effectDuration: 4
   resetTime: 8

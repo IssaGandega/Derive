@@ -18,7 +18,7 @@ public class UI_MoveLocal : MonoBehaviour
     [SerializeField] float time_scale;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         Gameobject.localPosition = new Vector2(X_Start, Y_Start);
         LeanTween.moveLocalX(gameObject, X_Destination, Time).setEaseInOutBack().setDelay(delay);

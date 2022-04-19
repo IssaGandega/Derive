@@ -10,7 +10,7 @@ public class UI_Rotate : MonoBehaviour
     [SerializeField] float time_rotation;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         LeanTween.rotateAroundLocal(gameObject, Vector3.forward, z_rotation, time_rotation).setEaseInQuad().setLoopPingPong();
     }

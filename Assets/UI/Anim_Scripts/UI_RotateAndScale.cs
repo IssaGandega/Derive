@@ -14,7 +14,7 @@ public class UI_RotateAndScale : MonoBehaviour
     [SerializeField] float time_rotation;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         transform.LeanScale(new Vector3(x, y, z), time_size).setEaseInSine().setLoopPingPong();
         LeanTween.rotateAroundLocal(gameObject, Vector3.forward, z_rotation, time_rotation).setRepeat(-1);
