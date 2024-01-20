@@ -38,5 +38,5 @@ Dérive being an alt.ctrl project, we decided to transform the arcade terminal i
 
 ## Feedback
 
-If you have any feedback, please reach out to us at fake@fake.com
+If you have any feedback, please reach out to me at issagndega94@gmail.com
 
